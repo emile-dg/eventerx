@@ -1,0 +1,36 @@
+// base colors
+$red: red;
+$blue: skyblue;
+$purple: purple;
+$yellow: yellow;
+$green: green;
+$black: #0f0f0f;
+$white: white;
+$orange: orange;
+
+// theme colors
+$primary_color: rgb(97, 223, 164);
+$primary_gradient: rgb(83, 255, 160);
+$secondary_color: none;
+
+$color_on_primary: $black;
+$color_on_secondary: none;
+
+// more variables
+$default_padding: 2rem;
+$padding_sm: 1rem;
+$padding_lg: 6rem;
+
+$default_margin: 2rem;
+$margin_sm: 1rem;
+$margin_lg: 6rem;
+
+$border_radius: 6px;
+
+$default_textsize: 16px;
+
+$heading_margin: 1rem;
+
+// screen sizes for responsive design
+$screen_md: 640px;
+$screen_lg: 1024px;

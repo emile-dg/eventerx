@@ -1,0 +1,49 @@
+@import "variables";
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    font-size: $default_textsize;
+    background-color: white;
+    width: 100%;
+    height: 100vh;
+    font-family: 'Open sans', sans-serif;
+}
+
+h1, h2, h3 {
+    font-family: "Poppins", sans-serif;
+    margin: $heading_margin 0;
+}
+
+a {
+    text-decoration: none;
+    padding: 0;
+    margin: 0;
+    color: $primary_color;
+}
+
+
+// components
+.alert {
+    display: block;
+    padding: $default_padding;
+    border-radius: $border_radius;
+    color: $black;
+    margin: 0 0 $margin_sm 0;
+    background-color: transparentize($color: $primary_color, $amount: 0.5); 
+
+    &--info { background-color: transparentize($color: $blue, $amount: 0.5); }
+    &--error { background-color: transparentize($color: $red, $amount: 0.5); }
+    &--warning { background-color: transparentize($color: $orange, $amount: 0.5); }
+}
+
+.card {
+    padding: $padding_sm;
+    border-radius: $border_radius;
+    background-color: white;
+}
