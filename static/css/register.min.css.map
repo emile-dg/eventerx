@@ -1,0 +1,10 @@
+{
+    "version": 3,
+    "mappings": "AAGA,AAAA,aAAa,AAAC,CACV,KAAK,CAAE,IAAI,CACX,MAAM,CAAE,IAAI,CACZ,OAAO,CAAE,IAAI,CAEb,OAAO,CAAE,IAAI,CACb,cAAc,CAAE,MAAM,CACtB,WAAW,CAAE,MAAM,CACnB,eAAe,CAAE,MAAM,CAc1B,AAZG,MAAM,CAAC,MAAM,MAAM,SAAS,EAAE,KAAK,EAVvC,AAWQ,aAXK,CAWL,KAAK,AAAC,CACF,KAAK,CAAE,GAAG,CACb,CAGL,MAAM,CAAC,MAAM,MAAM,SAAS,EAAE,MAAM,EAhBxC,AAiBQ,aAjBK,CAiBL,KAAK,AAAC,CACF,KAAK,CAAE,GAAG,CACb",
+    "sources": [
+        "../scss/pages/register.scss",
+        "../scss/_variables.scss"
+    ],
+    "names": [],
+    "file": "register.min.css"
+}

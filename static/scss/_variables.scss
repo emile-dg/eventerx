@@ -23,14 +23,27 @@ $padding_lg: 6rem;
 
 $default_margin: 2rem;
 $margin_sm: 1rem;
-$margin_lg: 6rem;
+$margin_lg: 1rem;
 
 $border_radius: 6px;
 
 $default_textsize: 16px;
+$transition_duration: 300ms;
 
 $heading_margin: 1rem;
 
 // screen sizes for responsive design
 $screen_md: 640px;
 $screen_lg: 1024px;
+
+// form design
+$input_padding: 1rem;
+$input_border_radius: 6px;
+$input_background: #efefef;
+
+// button
+$button_padding: 1rem 3rem;
+$button_fontsize: $default_textsize * 0.9;
+$button_radius: 2em;
+$button_margin: 0.5rem 0.5rem 0 0;
+$button_darken_amount: 15;

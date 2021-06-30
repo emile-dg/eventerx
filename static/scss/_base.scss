@@ -1,21 +1,23 @@
 @import "variables";
 
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     font-size: $default_textsize;
     background-color: white;
     width: 100%;
     height: 100vh;
-    font-family: 'Open sans', sans-serif;
+    font-family: "Open sans", sans-serif;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
     font-family: "Poppins", sans-serif;
     margin: $heading_margin 0;
 }
@@ -27,7 +29,6 @@ a {
     color: $primary_color;
 }
 
-
 // components
 .alert {
     display: block;
@@ -35,15 +36,114 @@ a {
     border-radius: $border_radius;
     color: $black;
     margin: 0 0 $margin_sm 0;
-    background-color: transparentize($color: $primary_color, $amount: 0.5); 
+    background-color: transparentize($color: $primary_color, $amount: 0.5);
 
-    &--info { background-color: transparentize($color: $blue, $amount: 0.5); }
-    &--error { background-color: transparentize($color: $red, $amount: 0.5); }
-    &--warning { background-color: transparentize($color: $orange, $amount: 0.5); }
+    &--info {
+        background-color: transparentize($color: $blue, $amount: 0.5);
+    }
+    &--error {
+        background-color: transparentize($color: $red, $amount: 0.5);
+    }
+    &--warning {
+        background-color: transparentize($color: $orange, $amount: 0.5);
+    }
 }
 
 .card {
     padding: $padding_sm;
     border-radius: $border_radius;
     background-color: white;
+}
+
+.form {
+    display: block;
+
+    &.--inline {
+        display: flex;
+        flex-direction: row;
+    }
+
+    &.--full-width {
+        width: 100%;
+
+        .input_control {
+            width: 100%;
+            input,
+            label {
+                width: 100%;
+            }
+        }
+    }
+
+    .input_group {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .input_control {
+        display: block;
+        padding: $padding_sm;
+
+        label {
+            display: block;
+            margin-bottom: 1rem;
+            font-size: $default_textsize * 0.8;
+        }
+
+        input[type="email"],
+        input[type="password"],
+        input[type="tel"],
+        input[type="text"],
+        input[type="url"],
+        input[type="search"],
+        textarea,
+        select {
+            display: block;
+            background: $input_background;
+            border: none;
+            outline: none;
+            padding: $input_padding;
+            border-radius: $input_border_radius;
+            transition: $transition_duration;
+
+            &:focus {
+                background-color: darken($color: $input_background, $amount: 5);
+            }
+        }
+    }
+
+    .checbox_control {
+        display: flex;
+        padding: 0 2rem;
+
+        input[type="checkbox"] {
+            margin: 0 1rem 0 0;
+            &:focus {
+                outline: 2px solid $primary_color;
+            }
+        }
+    }
+}
+
+.button {
+    text-decoration: none;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+    margin: $button_margin;
+    color: $color_on_primary;
+    padding: $button_padding;
+    font-size: $button_fontsize;
+    font-family: "Open sans", sans-serif;
+    border-radius: $button_radius;
+    transition: $transition_duration;
+    background-color: $primary_color;
+
+    &:hover {
+        background-color: darken($color: $primary_color, $amount: $button_darken_amount);
+    }
+
+    &.--full-width {
+        width: 100%;
+    }
 }
