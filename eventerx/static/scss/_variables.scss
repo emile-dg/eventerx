@@ -43,7 +43,9 @@ $input_background: #efefef;
 
 // button
 $button_padding: 1rem 3rem;
+$button_padding_small: 0.5rem 1.5rem;
 $button_fontsize: $default_textsize * 0.9;
+$button_fontsize_small: $button_fontsize * 0.8;
 $button_radius: 2em;
 $button_margin: 0.5rem 0.5rem 0 0;
 $button_darken_amount: 15;

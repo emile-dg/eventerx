@@ -1,0 +1,48 @@
+<a href="javascript:void(0)" class="close_button">
+    <i class="fa fa-times" onclick='document.querySelector("#sideNav").classList.toggle("--shown");'></i>
+</a>
+
+<a href="{{ url_for('homepage') }}" class="sidenav__item {{ '--active' if page.title.lower() == 'dashboard' }}">
+    <i class="icon fa fa-chart-pie"></i>
+    <span class="description">Dashboard</span>
+</a>
+
+<a href="{{ url_for('events') }}" class="sidenav__item {{ '--active' if page.title.lower() == 'events' }}">
+    <i class="icon fa fa-clock"></i>
+    <span class="description">Events</span>
+</a>
+
+<a href="{{ url_for('tasks') }}" class="sidenav__item {{ '--active' if page.title.lower() == 'tasks' }}">
+    <i class="icon fa fa-tasks"></i>
+    <span class="description">Tasks</span>
+</a>
+
+<a href="{{ url_for('calendar') }}" class="sidenav__item {{ '--active' if page.title.lower() == 'calendar' }}">
+    <i class="icon fa fa-calendar-alt"></i>
+    <span class="description">Calendar</span>
+</a>
+
+<a href="{{ url_for('teams') }}" class="sidenav__item {{ '--active' if page.title.lower() == 'teams' }}">
+    <i class="icon fa fa-users"></i>
+    <span class="description">Teams</span>
+</a>
+
+<a href="{{ url_for('resources') }}" class="sidenav__item {{ '--active' if page.title.lower() == 'resources' }}">
+    <i class="icon fa fa-folder-open"></i>
+    <span class="description">Resources</span>
+</a>
+
+<a href="{{ url_for('chat') }}" class="sidenav__item {{ '--active' if page.title.lower() == 'messages' }} mobile_only">
+    <i class="icon fa fa-comment-alt"></i>
+    <span class="description">Messages</span>
+</a>
+
+<a href="{{ url_for('profile') }}" class="sidenav__item {{ '--active' if page.title.lower() == 'profile' }} mobile_only">
+    <i class="icon fa fa-user-circle"></i>
+    <span class="description">Profile</span>
+</a>
+
+<a href="{{ url_for('settings') }}" class="sidenav__item {{ '--active' if page.title.lower() == 'settings' }}">
+    <i class="icon fa fa-cogs"></i>
+    <span class="description">Settings</span>
+</a>

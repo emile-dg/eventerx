@@ -1,0 +1,65 @@
+{% extends 'eventerx/layout.html' %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tasks.min.css') }}">
+{% endblock %}
+
+
+{% block main_content %}
+
+<div class="kanban_board">
+
+    <div class="card card_panel planned">
+        <h2>Planned</h2>
+        <button class="action_btn"><i class="fa fa-plus"></i></button>
+
+        <div class="card panel_card">
+            <p class="title">Buy new chairs</p>
+            <p class="content">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, porro!
+            </p>
+            <span class="priority --high">High</span>
+            <a href="#">details</a>
+        </div>
+
+        <div class="card panel_card">
+            <p class="title">Buy new chairs</p>
+            <p class="content">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, porro!
+            </p>
+            <span class="priority --high">High</span>
+            <a href="#">details</a>
+        </div>
+        
+    </div>
+
+    <div class="card card_panel ongoing">
+        <h2>Ongoing</h2>
+        <button class="action_btn"><i class="fa fa-plus"></i></button>
+
+        <div class="card panel_card">
+            <p class="title">Buy new chairs</p>
+            <p class="content">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, porro!
+            </p>
+            <span class="priority --medium">High</span>
+            <a href="#">details</a>
+        </div>
+    </div>
+
+    <div class="card card_panel completed">
+        <h2>Completed</h2>
+
+        <div class="card panel_card">
+            <p class="title">Buy new chairs</p>
+            <p class="content">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, porro!
+            </p>
+            <span class="priority --low">High</span>
+            <a href="#">details</a>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

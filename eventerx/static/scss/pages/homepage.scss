@@ -115,3 +115,39 @@
         }
     }
 }
+
+.active_events {
+    width: 100%;
+    height: auto;
+
+    display: flex;
+    flex-direction: column;
+
+    @media screen and (min-width: $screen_md) {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow: auto hidden;
+        scroll-behavior: smooth;
+    }
+    
+    .card {
+        padding: $default_padding;
+        margin: $margin_sm 0;
+
+        span.detail { 
+            color: $primary_color;
+            font-size: $default_textsize;
+
+            span { color: $black; }
+         }
+
+        @media screen and (min-width: $screen_md) {
+            max-width: 350px;
+            min-width: 350px;
+            height: 100%;
+            margin: $margin_sm;
+        }
+
+    }
+
+}

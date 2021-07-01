@@ -1,0 +1,106 @@
+{% extends 'eventerx/layout.html' %}
+
+{% block main_content %}
+
+<div class="alert">
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, iste!
+</div>
+
+<div class="homepage_grid">
+
+    <!-- the briefing cards section -->
+    <div class="briefing_list">
+
+        <div class="card cards_briefing">
+            <p class="number">26</p>
+            <p class="description">Total Tasks</p>
+        </div>
+        <div class="card cards_briefing">
+            <p class="number">15</p>
+            <p class="description">Uncompleted Tasks</p>
+        </div>
+        <div class="card cards_briefing">
+            <p class="number">16</p>
+            <p class="description">Staff Members</p>
+        </div>
+        <div class="card cards_briefing">
+            <p class="number">4</p>
+            <p class="description">Active Teams</p>
+        </div>
+
+    </div>
+
+
+    <div class="charts_section">
+
+        <div class="card card_chart" id="lineChart">
+            <h3>Daily Tasks' reports</h3>
+        </div>
+
+        <div class="card card_chart" id="pieChart">
+            <h3>Budget Allocation</h3>
+        </div>
+
+    </div>
+
+    <div class="card card_todo">
+        
+        <h3>To do list</h3>
+        <div class="card_todo_item --completed">
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eos, repellat.</p>
+        </div>
+        <div class="card_todo_item">
+            <p>Lorem ipsum dolor sit amet.</p>
+        </div>
+        <div class="card_todo_item">
+            <p>Lorem ipsum dolor sit amet.</p>
+        </div>
+        <div class="card_todo_item --completed">
+            <p>Lorem ipsum dolor sit amet.</p>
+        </div>
+        <div class="card_todo_item --completed">
+            <p>Lorem ipsum dolor sit amet.</p>
+        </div>
+    </div>
+
+
+</div>
+
+<section class="event_planning">
+
+    <h2>Current Events</h2>
+
+    <table class="table table--fullsize">
+
+        <thead>
+            <tr>
+                <th>Event Title</th>
+                <th>Deadline</th>
+                <th>Progress</th>
+                <th>Lead</th>
+                <th>Team</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Graduation Ceremony</td>
+                <td>12th September 2021</td>
+                <td>12%</td>
+                <td>John D</td>
+                <td>Team 7</td>
+                <td>
+                    <a href="#">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <a href="#">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+    
+</section>
+{% endblock %}

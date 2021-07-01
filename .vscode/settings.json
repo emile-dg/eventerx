@@ -7,12 +7,13 @@
         {
             "format": "expanded",
             "extensionName": ".css",
-            "savePath": "/static/css/"
+            "savePath": "/eventerx/static/css/"
         },
         {
             "format": "compressed",
             "extensionName": ".min.css",
-            "savePath": "/static/css/"
+            "savePath": "/eventerx/static/css/"
         }
-    ]
+    ],
+    "python.pythonPath": "env/bin/python"
 }

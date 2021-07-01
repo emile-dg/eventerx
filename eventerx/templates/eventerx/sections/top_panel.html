@@ -1,0 +1,19 @@
+<i class="mobile_only fa fa-bars" onclick='document.querySelector("#sideNav").classList.toggle("--shown");'></i>
+
+<div class="school_name">School name</div>
+
+<i class="mobile_only fa fa-bell"></i>
+
+<div class="left_options">
+    <a href="{{ url_for('chat') }}">
+        <i class="fa fa-comment-alt"></i>
+    </a>
+
+    <a href="#">
+        <i class="fa fa-bell"></i>
+    </a>
+
+    <a href="{{ url_for('profile') }}">
+        <i class="fa fa-user-circle"></i>
+    </a>
+</div>
