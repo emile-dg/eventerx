@@ -1,0 +1,43 @@
+{% extends 'eventerx/layout.html' %}
+
+{% block main_content %}
+
+<div class="card centered_form">
+    
+<h1>Create an Event</h1>
+
+<form action="" class="form --full-width" method="POST">
+
+    <div class="input_control">
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title">
+    </div>
+    
+    <div class="input_control">
+        <label for="venue">venue</label>
+        <input type="text" name="venue" id="venue">
+    </div>
+    
+    <div class="input_control">
+        <label for="budget">budget</label>
+        <input type="number" name="budget" id="budget">
+    </div>
+    
+    <div class="input_group">    
+        <div class="input_control">
+            <label for="start_date">Event Start date</label>
+            <input type="datetime" name="start_date" id="start_date">
+        </div>
+        <div class="input_control">
+            <label for="due_date">Event Due date</label>
+            <input type="datetime" name="due_date" id="due_date">
+        </div>
+    </div>
+
+    <button type="submit" class="button --full-width">Create event</button>
+
+</form>
+</div>
+
+
+{% endblock %}

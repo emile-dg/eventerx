@@ -112,6 +112,7 @@
 .main_section {
 
     overflow: hidden auto;
+    position: relative;
 
     .top_panel {
         height: 8%;
@@ -171,5 +172,23 @@
         background-color: #efefef;
         overflow: hidden auto;
         
+    }
+}
+
+.centered_form {
+    width: 100%;
+    position: absolute;
+    left: 50%; 
+    transform: translate(-50%);
+
+    h1 {
+        text-align: center;
+    }
+
+    @media screen and (min-width: $screen_md) {
+        width: 400px;
+    }
+    @media screen and (min-width: $screen_lg) {
+        width: 450px;
     }
 }

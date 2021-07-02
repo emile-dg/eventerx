@@ -30,18 +30,18 @@
 }
 
 .kanban_board .card_panel.completed {
-  background-color: #61dfa4;
+  background-color: #3aaf9f;
 }
 
 .kanban_board .card_panel.completed h2 {
-  color: #0f0f0f;
+  color: white;
 }
 
 .kanban_board .card_panel button {
   width: 50px;
   height: 50px;
-  background-color: #61dfa4;
-  color: #0f0f0f;
+  background-color: #3aaf9f;
+  color: white;
   border: none;
   font-size: 17.6px;
   border-radius: 50%;
@@ -63,8 +63,8 @@
 
 .kanban_board .card_panel .card .priority {
   display: inline-block;
-  border: 1px solid purple;
-  color: purple;
+  border: 1px solid #89347b;
+  color: #89347b;
   padding: 0.3rem 1rem;
   margin: 0.5rem 1rem  0.5rem 0;
   border-radius: 2rem;
@@ -76,8 +76,8 @@
 }
 
 .kanban_board .card_panel .card .priority.--medium {
-  border-color: orange;
-  color: orange;
+  border-color: #ff7f2a;
+  color: #ff7f2a;
 }
 
 .kanban_board .card_panel .card .priority.--high {

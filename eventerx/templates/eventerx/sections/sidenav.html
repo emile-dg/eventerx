@@ -7,35 +7,48 @@
     <span class="description">Dashboard</span>
 </a>
 
+{% if current_user.role.id == 3 %}
 <a href="{{ url_for('events') }}" class="sidenav__item {{ '--active' if page.title.lower() == 'events' }}">
     <i class="icon fa fa-clock"></i>
     <span class="description">Events</span>
 </a>
+{% endif %}
 
+{% if current_user.role.id == 3 %}
 <a href="{{ url_for('tasks') }}" class="sidenav__item {{ '--active' if page.title.lower() == 'tasks' }}">
     <i class="icon fa fa-tasks"></i>
     <span class="description">Tasks</span>
 </a>
+{% endif %}
 
+{% if current_user.role.id == 2 or current_user.role.id == 3 %}
+<a href="{{ url_for('staff') }}" class="sidenav__item {{ '--active' if page.title.lower() == 'staff' }}">
+    <i class="icon fa fa-users"></i>
+    <span class="description">Staff</span>
+</a>
+{% endif %}
+
+{% if current_user.role.id == 2 or current_user.role.id == 3 %}
 <a href="{{ url_for('calendar') }}" class="sidenav__item {{ '--active' if page.title.lower() == 'calendar' }}">
     <i class="icon fa fa-calendar-alt"></i>
     <span class="description">Calendar</span>
 </a>
+{% endif %}
 
+{% if current_user.role.id == 3 %}
 <a href="{{ url_for('teams') }}" class="sidenav__item {{ '--active' if page.title.lower() == 'teams' }}">
     <i class="icon fa fa-users"></i>
     <span class="description">Teams</span>
 </a>
+{% endif %}
 
-<a href="{{ url_for('resources') }}" class="sidenav__item {{ '--active' if page.title.lower() == 'resources' }}">
-    <i class="icon fa fa-folder-open"></i>
-    <span class="description">Resources</span>
-</a>
 
+{% if current_user.role.id >= 3 %}
 <a href="{{ url_for('chat') }}" class="sidenav__item {{ '--active' if page.title.lower() == 'messages' }} mobile_only">
     <i class="icon fa fa-comment-alt"></i>
     <span class="description">Messages</span>
 </a>
+{% endif %}
 
 <a href="{{ url_for('profile') }}" class="sidenav__item {{ '--active' if page.title.lower() == 'profile' }} mobile_only">
     <i class="icon fa fa-user-circle"></i>

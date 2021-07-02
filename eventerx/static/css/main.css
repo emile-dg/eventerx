@@ -29,7 +29,7 @@ a {
   text-decoration: none;
   padding: 0;
   margin: 0;
-  color: #61dfa4;
+  color: #3aaf9f;
 }
 
 .alert {
@@ -38,11 +38,11 @@ a {
   border-radius: 6px;
   color: #0f0f0f;
   margin: 0 0 1rem 0;
-  background-color: rgba(97, 223, 164, 0.5);
+  background-color: rgba(58, 175, 159, 0.5);
 }
 
 .alert--info {
-  background-color: rgba(135, 206, 235, 0.5);
+  background-color: rgba(0, 137, 255, 0.5);
 }
 
 .alert--error {
@@ -50,7 +50,7 @@ a {
 }
 
 .alert--warning {
-  background-color: rgba(255, 165, 0, 0.5);
+  background-color: rgba(255, 127, 42, 0.5);
 }
 
 .card {
@@ -113,6 +113,9 @@ a {
 .form .input_control input[type="text"],
 .form .input_control input[type="url"],
 .form .input_control input[type="search"],
+.form .input_control input[type="number"],
+.form .input_control input[type="date"],
+.form .input_control input[type="datetime"],
 .form .input_control textarea,
 .form .input_control select {
   display: block;
@@ -131,6 +134,9 @@ a {
 .form .input_control input[type="text"]:focus,
 .form .input_control input[type="url"]:focus,
 .form .input_control input[type="search"]:focus,
+.form .input_control input[type="number"]:focus,
+.form .input_control input[type="date"]:focus,
+.form .input_control input[type="datetime"]:focus,
 .form .input_control textarea:focus,
 .form .input_control select:focus {
   background-color: #e2e2e2;
@@ -148,23 +154,24 @@ a {
 }
 
 .form .checbox_control input[type="checkbox"]:focus {
-  outline: 2px solid #61dfa4;
+  outline: 2px solid #3aaf9f;
 }
 
 .button {
   text-decoration: none;
+  text-align: center;
   display: inline-block;
   border: none;
   cursor: pointer;
   margin: 0.5rem 0.5rem 0 0;
-  color: #0f0f0f;
+  color: white;
   padding: 1rem 3rem;
   font-size: 14.4px;
   font-family: "Open sans", sans-serif;
   border-radius: 2em;
   -webkit-transition: 300ms;
   transition: 300ms;
-  background-color: #61dfa4;
+  background-color: #3aaf9f;
   text-transform: uppercase;
   font-weight: bold;
 }
@@ -176,8 +183,8 @@ a {
 
 .button.--outline {
   background-color: transparent;
-  color: #61dfa4;
-  border: 1px solid #61dfa4;
+  color: #3aaf9f;
+  border: 1px solid #3aaf9f;
 }
 
 .button.--outline:hover {
@@ -186,11 +193,26 @@ a {
 }
 
 .button:hover {
-  background-color: #29ca7f;
+  background-color: #27766b;
 }
 
 .button.--full-width {
   width: 100%;
+}
+
+table {
+  width: 100%;
+  margin: 2rem 0;
+  background-color: white;
+  padding: 1rem;
+}
+
+table tr th, table tr td {
+  padding: 1rem;
+}
+
+table tr th {
+  text-align: left;
 }
 
 .home_grid {
@@ -213,7 +235,7 @@ a {
 }
 
 .sidenav {
-  background-color: #61dfa4;
+  background-color: #3aaf9f;
   padding: 3rem 0.5rem;
   z-index: 1000;
   display: -webkit-box;
@@ -272,7 +294,7 @@ a {
   padding: 0.6rem;
   text-align: left;
   border-radius: 6px;
-  color: #0f0f0f;
+  color: white;
   cursor: pointer;
   -webkit-transition: 300ms;
   transition: 300ms;
@@ -339,6 +361,7 @@ a {
 
 .main_section {
   overflow: hidden auto;
+  position: relative;
 }
 
 .main_section .top_panel {
@@ -402,8 +425,8 @@ a {
     margin: 0 0.2rem;
   }
   .main_section .top_panel .left_options a:hover {
-    background-color: #61dfa4;
-    color: #0f0f0f;
+    background-color: #3aaf9f;
+    color: white;
     padding: 0.9rem 1.4rem;
   }
 }
@@ -413,5 +436,29 @@ a {
   padding: 2rem;
   background-color: #efefef;
   overflow: hidden auto;
+}
+
+.centered_form {
+  width: 100%;
+  position: absolute;
+  left: 50%;
+  -webkit-transform: translate(-50%);
+          transform: translate(-50%);
+}
+
+.centered_form h1 {
+  text-align: center;
+}
+
+@media screen and (min-width: 640px) {
+  .centered_form {
+    width: 400px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .centered_form {
+    width: 450px;
+  }
 }
 /*# sourceMappingURL=main.css.map */

@@ -5,14 +5,14 @@
   gap: 1rem;
   -ms-grid-columns: 1fr;
       grid-template-columns: 1fr;
-      grid-template-areas: "a a a a" "b b b b" "c c c c" "c c c c";
+      grid-template-areas: "a a a a" "b b b b" "c c c c" "c c c c";
 }
 
 @media screen and (min-width: 1024px) {
   .homepage_grid {
     -ms-grid-columns: 4fr 4fr 2fr;
         grid-template-columns: 4fr 4fr 2fr;
-        grid-template-areas: "a a a a b b b" "c c c c b b b" "c c c c b b b";
+        grid-template-areas: "a a a a b b b" "c c c c b b b" "c c c c b b b";
   }
 }
 
@@ -102,7 +102,7 @@
 }
 
 .homepage_grid .card_todo .card_todo_item.--completed::before {
-  background-color: #61dfa4;
+  background-color: #3aaf9f;
 }
 
 .homepage_grid .card_todo .card_todo_item::before {
@@ -185,7 +185,7 @@
 }
 
 .active_events .card span.detail {
-  color: #61dfa4;
+  color: #3aaf9f;
   font-size: 16px;
 }
 
