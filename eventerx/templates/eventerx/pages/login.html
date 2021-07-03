@@ -1,61 +1,37 @@
+{% extends "eventerx/forms_layout.html" %}
 
-<!DOCTYPE html>
-<html lang="en">
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='/css/login.min.css') }}">
+{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+{% block main_content %}
+<form action="" method="POST" class="form --full-width">
 
-    <!-- style -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='/css/main.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='/css/login.min.css') }}">
+    {{ form.csrf_token }}
 
-    <!-- fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins:wght@400;700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/fontawesome/css/all.min.css') }}">
+    {% for category, message in get_flashed_messages(with_categories=true) %}
+    <div class="alert alert--{{category}}">
+        {{ message }}
+    </div>
+    {% endfor %}
 
-</head>
-
-<body>
-
-    <div class="form_wrapper">
-
-        <h1>Login</h1>
-
-        <form action="" method="POST" class="form --full-width">
-
-            {{ form.csrf_token }}
-
-            {% for category, message in get_flashed_messages(with_categories=true) %}
-                <div class="alert alert--{{category}}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-            
-            <div class="input_control">
-                <label for="email">{{ form.email.label }}</label>
-                {{ form.email }}
-            </div>
-
-            <div class="input_control">
-                <label for="password">{{ form.password.label }}</label>
-                {{ form.password }}
-            </div>
-            
-            <div class="input_control">
-                <button type="submit" class="button --full-width">Login</button>
-                <a href="{{ url_for('register_school') }}" class="button --full-width --outline">I am a School</a>
-
-            </div>
-    
-        </form>
+    <div class="input_control">
+        <label for="email">{{ form.email.label }}</label>
+        {{ form.email }}
     </div>
 
-</body>
+    <div class="input_control">
+        <label for="password">{{ form.password.label }}</label>
+        {{ form.password }}
+    </div>
 
-</html>
+    <div class="input_control">
+        <button type="submit" class="button --full-width">Login</button>
+        <a href="{{ url_for('register_school') }}" class="button --full-width --outline">I am a School</a>
+
+    </div>
+
+</form>
+{% endblock %}
+
+

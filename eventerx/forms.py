@@ -1,4 +1,4 @@
-from wtforms import Form, StringField, PasswordField, validators
+from wtforms import Form, StringField, PasswordField, validators, HiddenField
 
 
 class LoginForm(Form):
@@ -14,4 +14,14 @@ class RegisterSchoolForm(Form):
     pobox = StringField('PO BOX')
     email_address = StringField('Email', validators=[validators.DataRequired()])
     website = StringField('School Website')
-    password = PasswordField('Master Password')
+    password = PasswordField('Master Password', validators=[validators.DataRequired()])
+
+
+class RegisterStaffForm(Form):
+    first_name = StringField('First Name', validators=[validators.DataRequired()])
+    last_name = StringField('Last Name', validators=[validators.DataRequired()])
+    email = StringField('Email', validators=[validators.DataRequired()])
+    matricule = StringField('Matricule', validators=[validators.DataRequired()])
+    phone_number = StringField('Phone Number', validators=[validators.DataRequired()])
+    password = PasswordField('Password', validators=[validators.DataRequired()])
+    school_id = HiddenField(validators=[validators.DataRequired()])

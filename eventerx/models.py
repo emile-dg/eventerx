@@ -118,7 +118,7 @@ class StaffMember(db.Model):
 
     # Foreign keys
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable=False)
+    team_id = db.Column(db.Integer, db.ForeignKey('team.id'))
     school_institution_id = db.Column(db.Integer, db.ForeignKey('school_institution.id'), nullable=False)
     # backrefs
     user = db.relationship('User', backref=db.backref('staff_members', lazy=True, cascade="all, delete-orphan"))
@@ -186,6 +186,17 @@ class ServiceProvider(db.Model):
 
     role_id = db.Column(db.Integer, db.ForeignKey('user_roles.id'), nullable=False)
     role = db.relationship('UserRoles', backref=db.backref('user', lazy=True, cascade="all, delete-orphan"))
+
+
+class InvitationCode(db.Model):
+    code = db.Column(db.String(200), unique=True, primary_key=True)
+    duration = db.Column(db.Integer)
+    purpose = db.Column(db.String(100))
+    school_institution_id = db.Column(db.Integer, db.ForeignKey('school_institution.id'), nullable=False)
+
+
+    def __repr__(self):
+        return f"<InvitationCode '{self.code}'>"
 
 
 @login_manager.user_loader

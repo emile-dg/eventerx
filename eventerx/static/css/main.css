@@ -23,6 +23,7 @@ h3 {
 
 p {
   margin: 1rem 0;
+  word-break: break-all;
 }
 
 a {
@@ -39,6 +40,10 @@ a {
   color: #0f0f0f;
   margin: 0 0 1rem 0;
   background-color: rgba(58, 175, 159, 0.5);
+}
+
+.alert.--small {
+  padding: 1rem;
 }
 
 .alert--info {
@@ -164,11 +169,11 @@ a {
   border: none;
   cursor: pointer;
   margin: 0.5rem 0.5rem 0 0;
-  color: white;
+  color: #0f0f0f;
   padding: 1rem 3rem;
   font-size: 14.4px;
   font-family: "Open sans", sans-serif;
-  border-radius: 2em;
+  border-radius: 6px;
   -webkit-transition: 300ms;
   transition: 300ms;
   background-color: #3aaf9f;
@@ -200,19 +205,31 @@ a {
   width: 100%;
 }
 
-table {
+.datatable {
+  overflow-x: auto;
+}
+
+.datatable table {
   width: 100%;
   margin: 2rem 0;
   background-color: white;
   padding: 1rem;
 }
 
-table tr th, table tr td {
+.datatable table tr th, .datatable table tr td {
   padding: 1rem;
 }
 
-table tr th {
+.datatable table tr th {
   text-align: left;
+}
+
+.color_on_primary {
+  color: #0f0f0f;
+}
+
+.--underlined {
+  text-decoration: underline;
 }
 
 .home_grid {
@@ -235,7 +252,8 @@ table tr th {
 }
 
 .sidenav {
-  background-color: #3aaf9f;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#3aaf9f), to(#3fb591));
+  background-image: linear-gradient(#3aaf9f, #3fb591);
   padding: 3rem 0.5rem;
   z-index: 1000;
   display: -webkit-box;
@@ -294,7 +312,7 @@ table tr th {
   padding: 0.6rem;
   text-align: left;
   border-radius: 6px;
-  color: white;
+  color: #0f0f0f;
   cursor: pointer;
   -webkit-transition: 300ms;
   transition: 300ms;
@@ -426,7 +444,7 @@ table tr th {
   }
   .main_section .top_panel .left_options a:hover {
     background-color: #3aaf9f;
-    color: white;
+    color: #0f0f0f;
     padding: 0.9rem 1.4rem;
   }
 }
@@ -459,6 +477,37 @@ table tr th {
 @media screen and (min-width: 1024px) {
   .centered_form {
     width: 450px;
+  }
+}
+
+.form_wrapper {
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+@media screen and (min-width: 640px) {
+  .form_wrapper .form {
+    width: 45%;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .form_wrapper .form {
+    width: 25%;
   }
 }
 /*# sourceMappingURL=main.css.map */

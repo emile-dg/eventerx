@@ -24,6 +24,7 @@ h3 {
 
 p {
     margin: $heading_margin 0;
+    word-break: break-all;
 }
 
 a {
@@ -40,6 +41,10 @@ a {
     color: $black;
     margin: 0 0 $margin_sm 0;
     background-color: transparentize($color: $primary_color, $amount: 0.5);
+
+    &.--small {
+        padding: $default_padding / 2;
+    }
 
     &--info {
         background-color: transparentize($color: $blue, $amount: 0.5);
@@ -173,23 +178,31 @@ a {
     }
 }
 
-table {
-    width: 100%;
-    margin: $default_margin 0;
+.datatable {
+    overflow-x: auto;
 
-    background-color: white;
-    padding: $padding_sm;
-
-    tr {
-
-        th, td {
-            padding: $padding_sm;
-        }
-
-        th {
-            text-align: left;
-        }
-    }
+    table {
+        width: 100%;
+        margin: $default_margin 0;
     
-
+        background-color: white;
+        padding: $padding_sm;
+    
+        tr {
+    
+            th, td {
+                padding: $padding_sm;
+            }
+    
+            th {
+                text-align: left;
+            }
+        }
+        
+    
+    }
 }
+
+// utils
+.color_on_primary { color: $color_on_primary; }
+.--underlined { text-decoration: underline; }

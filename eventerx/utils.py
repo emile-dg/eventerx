@@ -1,8 +1,9 @@
+from datetime import datetime
 import json
 import os
 
 from eventerx import PROJECT_FILES_FOLDER, db, bcrypt
-from eventerx.models import Country, Town, UserRoles, User
+from eventerx.models import Country, InvitationCode, Town, UserRoles, User
 
 
 def get_project_file(filename):
@@ -55,6 +56,7 @@ def setup_user_roles():
     
     try:
         db.session.commit()
+
     except:
         db.session.rollback()
         raise
@@ -62,3 +64,14 @@ def setup_user_roles():
 
 def setup_all():
     pass
+
+
+def check_invitation_code(code):
+    invitation_code = InvitationCode.query.get(code)
+    # first check if the invitation code exists
+    if invitation_code != None:
+        # return if the code is still valid or not
+        is_valid = datetime.now().date() <= datetime.fromtimestamp(invitation_code.duration).date()
+        return invitation_code if is_valid else False
+    else:
+        return False
