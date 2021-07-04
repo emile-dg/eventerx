@@ -50,10 +50,6 @@
 </a>
 {% endif %}
 
-<a href="{{ url_for('profile') }}" class="sidenav__item {{ '--active' if page.title.lower() == 'profile' }} mobile_only">
-    <i class="icon fa fa-user-circle"></i>
-    <span class="description">Profile</span>
-</a>
 
 <a href="{{ url_for('settings') }}" class="sidenav__item {{ '--active' if page.title.lower() == 'settings' }}">
     <i class="icon fa fa-cogs"></i>

@@ -88,19 +88,6 @@ class Student(db.Model):
         return f"<Student {self.matricule}>"
 
 
-class Manager(db.Model):
-    matricule = db.Column(db.String(50), primary_key=True)
-    phone = db.Column(db.String(50), nullable=False)
-    created_on = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-
-    # Foreign keys
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    school_institution_id = db.Column(db.Integer, db.ForeignKey('school_institution.id'), nullable=False)
-    # backrefs
-    user = db.relationship('User', backref=db.backref('managers', lazy=True, cascade="all, delete-orphan"))
-    school_institution = db.relationship('SchoolInstitution', backref=db.backref('managers', lazy=True, cascade="all, delete-orphan"))
-
-
 class Team(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     created_on = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
@@ -166,10 +153,10 @@ class Task(db.Model):
     title = db.Column(db.String(50), nullable=False)
     description = db.Column(db.String(256), nullable=False)
 
-    manager_matricule = db.Column(db.String(50), db.ForeignKey('manager.matricule'), nullable=False)
+    manager_matricule = db.Column(db.String(50), db.ForeignKey('staff_member.matricule'), nullable=False)
     taskstate_id = db.Column(db.Integer, db.ForeignKey('task_state.id'), nullable=False)
 
-    manager = db.relationship('Manager', backref=db.backref('tasks', lazy=True, cascade="all, delete-orphan"))
+    manager = db.relationship('StaffMember', backref=db.backref('tasks', lazy=True, cascade="all, delete-orphan"))
     taskstate = db.relationship('TaskState', backref=db.backref('tasks', lazy=True, cascade="all, delete-orphan"))
 
 

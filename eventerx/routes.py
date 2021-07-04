@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import re
 from eventerx.utils import check_invitation_code
 from secrets import token_hex
 
@@ -11,24 +12,27 @@ from werkzeug.utils import redirect
 
 from eventerx import app, bcrypt, db
 from eventerx.forms import LoginForm, RegisterSchoolForm, RegisterStaffForm
-from eventerx.models import (EventProject, InvitationCode, Manager, SchoolInstitution,
+from eventerx.models import (EventProject, InvitationCode, SchoolInstitution,
                              StaffMember, Task, TaskState, Team, User)
 
 
 @app.route("/")
 @login_required
 def homepage():
+    school = SchoolInstitution.query.filter_by(email=current_user.email).first()
     if current_user.role.id != 3:  # only managers
-        return render_template("eventerx/pages/admin_homepage.html", current_user=current_user, page={'title': 'dashboard'})
+        tasks = StaffMember.query.filter_by(user_id=current_user.id).first().tasks
+        return render_template("eventerx/pages/admin_homepage.html", current_user=current_user, page={'title': 'dashboard'},school=school)
 
     else:
-        return render_template("eventerx/pages/homepage.html", current_user=current_user, page={'title': 'dashboard'})
+        return render_template("eventerx/pages/homepage.html", current_user=current_user, page={'title': 'dashboard'},school=school)
 
 
 @app.route('/calendar')
 @login_required
 def calendar():
-    return render_template('eventerx/pages/calendar.html', current_user=current_user, page={'title': 'calendar'})
+    school = SchoolInstitution.query.filter_by(email=current_user.email).first()
+    return render_template('eventerx/pages/calendar.html', current_user=current_user, page={'title': 'calendar'}, school=school)
 
 
 @app.route('/chat')
@@ -43,7 +47,8 @@ def events():
     if current_user.role.id != 3:  # only managers
         return "<h1>Access denied</h1>", 403
     events = EventProject.query.filter_by().all()
-    return render_template('eventerx/pages/events.html', current_user=current_user, page={'title': 'events'}, events=events)
+    school = SchoolInstitution.query.filter_by(email=current_user.email).first()
+    return render_template('eventerx/pages/events.html', current_user=current_user, page={'title': 'events'}, events=events, school=school)
 
 
 @app.route('/add/event', methods=['GET', 'POST'])
@@ -51,13 +56,8 @@ def events():
 def add_event():
     if current_user.role.id != 3:  # only managers
         return "<h1>Access denied</h1>", 403
-    return render_template('eventerx/pages/add_event.html', current_user=current_user, page={'title': ''}, events=events)
-
-
-@app.route('/profile')
-@login_required
-def profile():
-    return render_template('eventerx/pages/profile.html', current_user=current_user, page={'title': 'profile'})
+    school = SchoolInstitution.query.filter_by(email=current_user.email).first()
+    return render_template('eventerx/pages/add_event.html', current_user=current_user, page={'title': ''}, events=events, school=school)
 
 
 # @app.route('/resources')
@@ -70,7 +70,8 @@ def profile():
 @app.route('/settings')
 @login_required
 def settings():
-    return render_template('eventerx/pages/settings.html', current_user=current_user, page={'title': 'settings'})
+    school = SchoolInstitution.query.filter_by(email=current_user.email).first()
+    return render_template('eventerx/pages/settings.html', page={'title': 'settings'}, school=school)
 
 
 @app.route('/tasks')
@@ -81,7 +82,8 @@ def tasks():
 
     tasks = TaskState.query.filter(
         manager_matricule=current_user.manager.matricule)
-    return render_template('eventerx/pages/tasks.html', current_user=current_user, page={'title': 'tasks'}, tasks=tasks)
+    school = SchoolInstitution.query.filter_by(email=current_user.email).first()
+    return render_template('eventerx/pages/tasks.html', current_user=current_user, page={'title': 'tasks'}, tasks=tasks, school=school)
 
 
 @app.route('/staff')
@@ -96,7 +98,7 @@ def staff():
             email=current_user.email).first().id
 
     else:  # if it the  manager
-        school_id = Manager.query.filter_by(
+        school_id = StaffMember.query.filter_by(
             user_id=current_user.id).first().school_institution_id
 
     # getting the staff members for the current user's school
@@ -110,8 +112,10 @@ def staff():
             'invitation', purpose="staff", code=invitation_code, _external=True)
     else:
         invitation_url = None
+        
+    school = SchoolInstitution.query.filter_by(email=current_user.email).first()
 
-    return render_template('eventerx/pages/staff.html', current_user=current_user, page={'title': 'staff'}, staff_members=staff, invitation_url=invitation_url)
+    return render_template('eventerx/pages/staff.html', current_user=current_user, page={'title': 'staff'}, staff_members=staff, invitation_url=invitation_url, school=school)
 
 
 @app.route('/invite/<string:purpose>/<string:code>')
@@ -168,13 +172,64 @@ def add_staff():
     return redirect(form_view)
 
 
+@app.route('/staff/<string:staff_id>')
+@login_required
+def staff_member_details(staff_id):
+    if current_user.role.id != 3 and current_user.role.id != 2:
+        return "<h1>Access denied</h1>", 403
+
+    staff = StaffMember.query.get(staff_id)
+
+    if not staff:
+        return abort(404)
+
+    staff_user = staff.user
+    school = SchoolInstitution.query.filter_by(email=current_user.email).first()
+
+    return render_template('eventerx/pages/staff_detail.html', page={'title': staff_user.fullname}, staff=staff, staff_user=staff_user, school=school)
+
+
+@app.route('/make_manager/<string:staff_id>')
+@login_required
+def make_staff_manager(staff_id):
+    # only school has the right to make staff member a manager
+    if current_user.role.id != 2:
+        return abort(404)
+
+    staff = StaffMember.query.get(staff_id)
+
+    # if the matricule passed matches no account
+    if not staff:
+        return abort(404)
+
+    staff_user = User.query.get(staff.user_id)
+
+    # if the staff member is already a mangger
+    if staff_user.role.id == 3:
+        return redirect(request.referrer)
+        
+    staff_user.role_id = 3
+    try:
+        db.session.commit()
+    except:
+        db.session.rollback()
+        raise
+    else:
+        return redirect(request.referrer)
+
+
+    
+
+
 @app.route('/teams')
 @login_required
 def teams():
     if current_user.role.id != 3:
         return "<h1>Access denied</h1>", 403
+
     teams = Team.query.filter_by(manager_id=current.manager.id).all()
-    return render_template('eventerx/pages/teams.html', current_user=current_user, page={'title': 'teams'}, teams=teams)
+    school = SchoolInstitution.query.filter_by(email=current_user.email).first()
+    return render_template('eventerx/pages/teams.html', current_user=current_user, page={'title': 'teams'}, teams=teams, school=school)
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -244,9 +299,9 @@ def generate_link(purpose):
     if current_user.role.id != 3 and current_user.role.id != 2:  # only managers and school admins
         return "<h1>Access denied</h1>", 403
 
-    # if it is a manager, get the school id via the Manager class
+    # if it is a manager, get the school id via the StaffMember class
     if current_user.role.id == 3:
-        school_id = Manager.query.filter_by(user_id=current_user.id).first().school_institution_id
+        school_id = StaffMember.query.filter_by(user_id=current_user.id).first().school_institution_id
 
     # if it is the school itself, get the id through the SchoolInstitution class using email
     else:

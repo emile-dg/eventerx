@@ -1,6 +1,6 @@
 <i class="mobile_only fa fa-bars" onclick='document.querySelector("#sideNav").classList.toggle("--shown");'></i>
 
-<div class="school_name">School name</div>
+<div class="school_name">{{ school.name if school else "EventerX" }}</div>
 
 <i class="mobile_only fa fa-bell"></i>
 
@@ -14,10 +14,6 @@
 
     <a href="#">
         <i class="fa fa-bell"></i>
-    </a>
-
-    <a href="{{ url_for('profile') }}">
-        <i class="fa fa-user-circle"></i>
     </a>
     
 </div>

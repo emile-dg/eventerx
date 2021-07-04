@@ -167,6 +167,50 @@ a {
             color: white; 
             border: 1px solid transparent;
         }
+        
+        &.--danger {
+            background-color: transparent;
+            border-color: $red;
+            color: $red;
+            &:hover { 
+                color: white; 
+                border: 1px solid transparent;
+                background-color: $red;
+            }
+        }
+        &.--warning {
+            background-color: transparent;
+            border-color: $orange;
+            color: $orange;
+            &:hover { 
+                color: white; 
+                border: 1px solid transparent;
+                background-color: $orange;
+            }
+        }
+        &.--info {
+            background-color: transparent;
+            border-color: $blue;
+            color: $blue;
+            &:hover { 
+                color: white; 
+                border: 1px solid transparent;
+                background-color: $blue;
+            }
+        }
+    }
+
+    &.--danger {
+        background-color: $red;
+        color: white;
+    }
+    &.--warning {
+        background-color: $orange;
+        color: white;
+    }
+    &.--info {
+        background-color: $blue;
+        color: white;
     }
 
     &:hover {
@@ -189,17 +233,57 @@ a {
         padding: $padding_sm;
     
         tr {
-    
+            transition: 300ms;
+
             th, td {
                 padding: $padding_sm;
+                border: none;
             }
     
             th {
                 text-align: left;
+                font-weight: bold;
+            }
+        }
+
+        tbody > tr {
+            
+            &:hover {
+                background-color: darken($color: whitesmoke, $amount: 5);
+                cursor: pointer;
+            }
+
+            &:nth-child(even) {
+                background-color: whitesmoke; 
+                &:hover {
+                    background-color: darken($color: whitesmoke, $amount: 5);
+                    cursor: pointer;
+                }
             }
         }
         
     
+    }
+}
+
+.tabular_list_items {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0 $padding_sm;
+
+    .list_item {
+        display: block;
+        padding: $padding_sm;
+        width: 100%;
+
+        span.title {
+            font-weight: bold;
+            display: inline-block;
+            width: 20%;
+        }
+
+        &:nth-child(even) { background-color: #eee; }
     }
 }
 

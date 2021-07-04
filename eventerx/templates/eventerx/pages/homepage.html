@@ -44,19 +44,18 @@
         </div>
 
     </div>
-
-    {% if current_user.role.id == 3 %}
+    
+    {% if current_user.role_id == 3 %}
         <div class="card card_todo">
             
             <h3>To do list</h3>
 
-            {% for task in data.tasks %}
+            {% for task in tasks %}
                 <div class="card_todo_item --completed">
                     <p>Lorem ipsum dolor sit amet.</p>
                 </div>
             {% endfor %}
             
-
         </div>
     {% endif %}
     

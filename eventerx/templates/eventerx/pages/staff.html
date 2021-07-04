@@ -34,6 +34,7 @@
                 <td>First name</td>
                 <td>Last name</td>
                 <td>Phone</td>
+                <td>Manager</td>
                 <td>Date added</td>
             </tr>
         </thead>
@@ -45,7 +46,11 @@
                 <td>{{staff.user.first_name}}</td>
                 <td>{{staff.user.last_name}}</td>
                 <td>{{staff.phone}}</td>
-                <td>{{staff.created_on}}</td>
+                <td>{{ 'Yes' if staff.user.role.id == 3 else 'No' }}</td>
+                <td>{{staff.created_on.strftime("%d/%m/%Y")}}</td>
+                <td>
+                    <a href="{{url_for('staff_member_details', staff_id=staff.matricule) }}">details</a>
+                </td>
             </tr>
             {% endfor %}
 
