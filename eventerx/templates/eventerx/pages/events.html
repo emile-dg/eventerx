@@ -8,17 +8,17 @@
 
     {% for event in events[:3] %}
     <div class="card event_card">
-        <span class="detail">{{event.duedate.strftime('%d %B, %Y')}}</span>
+        <span class="detail">{{event.due_date.strftime('%d %B, %Y')}}</span>
         <h2>{{event.title}}</h2>
         <span class="detail">Venue: <span>{{event.venue}}</span> </span>
-        
+
         <p class="description">
-           {{ event.description }}
+            {{ event.description }}
         </p>
         <span class="detail">{{event.start_date.strftime('%d %B, %Y')}}</span>
     </div>
     {% endfor %}
-    
+
 
 </div>
 
@@ -29,24 +29,23 @@
 </div>
 
 
-<table class="table table--fullsize">
+<div class="datatable">
 
-    <thead>
-        <tr>
-            <th>Event Title</th>
-            <th>Deadline</th>
-            <th>Progress</th>
-            <th>Manager</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for event in events %}
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>Event Title</th>
+                <th>Deadline</th>
+                <th>Progress</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in events %}
             <tr>
                 <td>{{event.title}}</td>
-                <td>{{event.duedate.strftime('%d %B, %Y')}}</td>
+                <td>{{event.due_date.strftime('%d %B, %Y')}}</td>
                 <td>0%</td>
-                <td>{{event.manager.user.fullname}}</td>
                 <td>
                     <a href="#">
                         <i class="fa fa-edit"></i>
@@ -56,11 +55,12 @@
                     </a>
                 </td>
             </tr>
-        {% endfor %}
-        
-    </tbody>
+            {% endfor %}
 
-</table>
+        </tbody>
+
+    </table>
+</div>
 
 
 {% endblock %}

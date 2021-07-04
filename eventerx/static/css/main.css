@@ -23,7 +23,7 @@ h3 {
 
 p {
   margin: 1rem 0;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 a {
@@ -145,6 +145,10 @@ a {
 .form .input_control textarea:focus,
 .form .input_control select:focus {
   background-color: #e2e2e2;
+}
+
+.form .input_control textarea {
+  width: 100%;
 }
 
 .form .checbox_control {

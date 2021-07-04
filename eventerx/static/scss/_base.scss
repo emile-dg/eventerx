@@ -24,7 +24,7 @@ h3 {
 
 p {
     margin: $heading_margin 0;
-    word-break: break-all;
+    word-break: break-word;
 }
 
 a {
@@ -121,6 +121,7 @@ a {
                 background-color: darken($color: $input_background, $amount: 5);
             }
         }
+        textarea { width: 100%; }
     }
 
     .checbox_control {

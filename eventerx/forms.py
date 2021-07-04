@@ -1,4 +1,5 @@
-from wtforms import Form, StringField, PasswordField, validators, HiddenField
+from wtforms import (DateField, Form, HiddenField, IntegerField, PasswordField,
+                     StringField, validators, TextAreaField)
 
 
 class LoginForm(Form):
@@ -25,3 +26,12 @@ class RegisterStaffForm(Form):
     phone_number = StringField('Phone Number', validators=[validators.DataRequired()])
     password = PasswordField('Password', validators=[validators.DataRequired()])
     school_id = HiddenField(validators=[validators.DataRequired()])
+
+
+class CreateEventForm(Form):
+    title = StringField('Title', validators=[validators.DataRequired()])
+    venue = StringField('Venue', validators=[validators.DataRequired()])
+    description = TextAreaField("Description (Optional)", validators=[validators.Length(max=512)])
+    budget = IntegerField('Budget', validators=[validators.DataRequired()])
+    start_date = DateField('Event start date', validators=[validators.DataRequired()])
+    due_date = DateField('Event End date', validators=[validators.DataRequired()])

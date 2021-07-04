@@ -1,7 +1,6 @@
 - [x] Make the staff invitation work
 - [x] Allow the school to define managers
-- [] Implement the profile page
-- [] Implement the **add_event** page10
+- [x] Implement the **add_event** page
 - [] Implement the student invitation page
 - [] Design and Implement the students' user space
 - [] Design and Implement the staff members' user space
