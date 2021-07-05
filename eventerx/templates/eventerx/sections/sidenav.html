@@ -14,13 +14,6 @@
 </a>
 {% endif %}
 
-{% if current_user.role.id == 3 %}
-<a href="{{ url_for('tasks') }}" class="sidenav__item {{ '--active' if page.title.lower() == 'tasks' }}">
-    <i class="icon fa fa-tasks"></i>
-    <span class="description">Tasks</span>
-</a>
-{% endif %}
-
 {% if current_user.role.id == 2 or current_user.role.id == 3 %}
 <a href="{{ url_for('staff') }}" class="sidenav__item {{ '--active' if page.title.lower() == 'staff' }}">
     <i class="icon fa fa-users"></i>

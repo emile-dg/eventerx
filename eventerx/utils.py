@@ -3,7 +3,7 @@ import json
 import os
 
 from eventerx import PROJECT_FILES_FOLDER, db, bcrypt
-from eventerx.models import Country, InvitationCode, Town, UserRoles, User
+from eventerx.models import Country, InvitationCode, TaskState, Town, UserRoles, User
 
 
 def get_project_file(filename):
@@ -51,7 +51,7 @@ def setup_root_user():
 def setup_user_roles():
     raw_roles = json.loads(get_project_file("roles.json"))
     for role_item in raw_roles.get('roles'):
-        user_role = UserRoles(id=role_item.get('id'), name=role_item.get('name'))
+        user_role = UserRoles(**role_item)
         db.session.add(user_role)
     
     try:
@@ -62,9 +62,22 @@ def setup_user_roles():
         raise
 
 
-def setup_all():
-    pass
+def setup_tasks_states():
+    raw_states = json.loads(get_project_file("task_states.json"))
+    for raw_state in raw_states.get('states'):
+        task_state = TaskState(**raw_state)
+        db.session.add(task_state)
+    try:
+        db.session.commit()
+    except:
+        db.session.rollback()
+        raise
 
+
+def db_get_started():
+    setup_root_user()
+    setup_tasks_states()
+    setup_user_roles()
 
 def check_invitation_code(code):
     invitation_code = InvitationCode.query.get(code)

@@ -14,4 +14,4 @@
 - [] Allow schools check the evolution of events
 - [] Allow managers to generate invitation links for external attendees
 - [] Allow external attendees to react to the invitation (if they will be present or not)
-- [] Display the school name on the dashboard's top_panel
+- [X] Display the school name on the dashboard's top_panel

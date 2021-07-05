@@ -47,12 +47,7 @@
                 <td>{{event.due_date.strftime('%d %B, %Y')}}</td>
                 <td>0%</td>
                 <td>
-                    <a href="#">
-                        <i class="fa fa-edit"></i>
-                    </a>
-                    <a href="#">
-                        <i class="fa fa-trash"></i>
-                    </a>
+                    <a href="{{ url_for('event_details', event_id=event.id) }}"></a>
                 </td>
             </tr>
             {% endfor %}

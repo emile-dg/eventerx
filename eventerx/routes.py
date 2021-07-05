@@ -21,8 +21,9 @@ from eventerx.models import (EventProject, InvitationCode, SchoolInstitution,
 def homepage():
     school = SchoolInstitution.query.filter_by(
         email=current_user.email).first()
-    if current_user.role.id != 3:  # only managers
-        tasks = StaffMember.query.filter_by(
+
+    if current_user.role.id == 3:  # only managers
+        staff = StaffMember.query.filter_by(
             user_id=current_user.id).first().tasks
         return render_template("eventerx/pages/admin_homepage.html", current_user=current_user, page={'title': 'dashboard'}, school=school)
 
@@ -95,16 +96,20 @@ def settings():
     return render_template('eventerx/pages/settings.html', page={'title': 'settings'}, school=school)
 
 
-@app.route('/tasks')
+@app.route('/event/<string:event_id>/tasks')
 @login_required
 def tasks():
     if current_user.role.id != 3:  # only managers
         return "<h1>Access denied</h1>", 403
 
-    tasks = TaskState.query.filter(
-        manager_matricule=current_user.manager.matricule)
-    school = SchoolInstitution.query.filter_by(
-        email=current_user.email).first()
+    # staff = StaffMember.query.filter_by(user_id=current_user.id).first()
+    school = SchoolInstitution.query.filter_by(email=current_user.email).first()
+
+    tasks = {
+        'completed': Task.query.filter_by(taskstate_id=3).all(),
+        'ongoing': Task.query.filter_by(taskstate_id=2).all(),
+        'planned': Task.query.filter_by(taskstate_id=1).all()
+    }
     return render_template('eventerx/pages/tasks.html', current_user=current_user, page={'title': 'tasks'}, tasks=tasks, school=school)
 
 

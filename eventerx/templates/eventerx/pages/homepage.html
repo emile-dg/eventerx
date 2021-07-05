@@ -10,6 +10,8 @@
 
 <div class="homepage_grid">
 
+    
+    {% if current_user.role_id == 3 or current_user.role_id == 2 %}
     <!-- the briefing cards section -->
     <div class="briefing_list">
 
@@ -32,7 +34,6 @@
 
     </div>
 
-
     <div class="charts_section">
 
         <div class="card card_chart" id="lineChart">
@@ -44,6 +45,7 @@
         </div>
 
     </div>
+    {% endif %}
     
     {% if current_user.role_id == 3 %}
         <div class="card card_todo">
@@ -63,41 +65,46 @@
 
 </div>
 
+{% if current_user.role_id == 3 or current_use %}
 <section class="event_planning">
 
     <h2>Current Events</h2>
 
-    <table class="table table--fullsize">
+    <div class="datatables">
+        <table class="table table--fullsize">
 
-        <thead>
-            <tr>
-                <th>Event Title</th>
-                <th>Deadline</th>
-                <th>Progress</th>
-                <th>Lead</th>
-                <th>Team</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- <tr>
-                <td>Graduation Ceremony</td>
-                <td>12th September 2021</td>
-                <td>12%</td>
-                <td>John D</td>
-                <td>Team 7</td>
-                <td>
-                    <a href="#">
-                        <i class="fa fa-edit"></i>
-                    </a>
-                    <a href="#">
-                        <i class="fa fa-trash"></i>
-                    </a>
-                </td>
-            </tr> -->
-        </tbody>
-
-    </table>
+            <thead>
+                <tr>
+                    <th>Event Title</th>
+                    <th>Deadline</th>
+                    <th>Progress</th>
+                    <th>Lead</th>
+                    <th>Team</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Graduation Ceremony</td>
+                    <td>12th September 2021</td>
+                    <td>12%</td>
+                    <td>John D</td>
+                    <td>Team 7</td>
+                    <td>
+                        <a href="#">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        <a href="#">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+    
+        </table>
+    </div>
     
 </section>
+{% endif %}
+
 {% endblock %}

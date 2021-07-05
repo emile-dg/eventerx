@@ -13,17 +13,15 @@
         <h2>Planned</h2>
         <button class="action_btn"><i class="fa fa-plus"></i></button>
 
-        {% for task in tasks %}
-            {% if tasks.taskstate.id == 1 %}
-            <div class="card panel_card">
+        {% for task in tasks.planned %}
+            <div class="card panel_card" draggable="true">
                 <p class="title">{{tasks.title}}</p>
                 <p class="content">
                     {{taks.description}}
                 </p>
-                <span class="priority --high">{{'high' if task.priority>3 else 'medium' if task.priority = 2 else 'low'}}</span>
+                <span class="priority --high">{{'high' if task.priority>3 else 'medium' if task.priority == 2 else 'low'}}</span>
                 <a href="#">details</a>
             </div>
-            {% endif %}
         {% endfor %}
         
         
@@ -33,34 +31,30 @@
         <h2>Ongoing</h2>
         <button class="action_btn"><i class="fa fa-plus"></i></button>
 
-        {% for task in tasks %}
-            {% if tasks.taskstate.id == 2 %}
-            <div class="card panel_card">
+        {% for task in tasks.ongoing %}
+            <div class="card panel_card" draggable="true">
                 <p class="title">{{tasks.title}}</p>
                 <p class="content">
                     {{taks.description}}
                 </p>
-                <span class="priority --high">{{'high' if task.priority>3 else 'medium' if task.priority = 2 else 'low'}}</span>
+                <span class="priority --high">{{'high' if task.priority>3 else 'medium' if task.priority == 2 else 'low'}}</span>
                 <a href="#">details</a>
             </div>
-            {% endif %}
         {% endfor %}
     </div>
 
     <div class="card card_panel completed">
         <h2>Completed</h2>
 
-        {% for task in tasks %}
-            {% if tasks.taskstate.id == 3 %}
-            <div class="card panel_card">
+        {% for task in tasks.completed %}
+            <div class="card panel_card" draggable="true">
                 <p class="title">{{tasks.title}}</p>
                 <p class="content">
                     {{taks.description}}
                 </p>
-                <span class="priority --high">{{'high' if task.priority>3 else 'medium' if task.priority = 2 else 'low'}}</span>
+                <span class="priority --high">{{'high' if task.priority>3 else 'medium' if task.priority == 2 else 'low'}}</span>
                 <a href="#">details</a>
             </div>
-            {% endif %}
         {% endfor %}
 
     </div>

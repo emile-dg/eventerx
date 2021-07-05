@@ -127,6 +127,16 @@ class EventProject(db.Model):
     # backrefs
     school_institution = db.relationship('SchoolInstitution', backref=db.backref('event_projects', lazy=True, cascade="all, delete-orphan"))
 
+    
+class TaskState(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+
+    
+class CommissionStates(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+
 
 class Commission(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -134,30 +144,24 @@ class Commission(db.Model):
     description = db.Column(db.String(512))
     start_date = db.Column(db.DateTime, nullable=False)
     due_date = db.Column(db.DateTime, nullable=False)
+    priority = db.Column(db.Integer)
     
     # Foreign keys
     event_project_id = db.Column(db.Integer, db.ForeignKey('event_project.id'), nullable=False)
     team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable=False)
+    state_id = db.Column(db.Integer, db.ForeignKey('commission_states.id'), nullable=False)
     # backrefs
     event_project = db.relationship('EventProject', backref=db.backref('commissions', lazy=True, cascade="all, delete-orphan"))
     team = db.relationship('Team', backref=db.backref('commissions', lazy=True, cascade="all, delete-orphan"))
+    commision_state = db.relationship('CommissionStates', backref=db.backref('commissions', lazy=True, cascade="all, delete-orphan"))
 
-    
-class TaskState(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
 
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    priority = db.Column(db.Integer)
-    title = db.Column(db.String(50), nullable=False)
-    description = db.Column(db.String(256), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
 
     manager_matricule = db.Column(db.String(50), db.ForeignKey('staff_member.matricule'), nullable=False)
-    taskstate_id = db.Column(db.Integer, db.ForeignKey('task_state.id'), nullable=False)
-
     manager = db.relationship('StaffMember', backref=db.backref('tasks', lazy=True, cascade="all, delete-orphan"))
-    taskstate = db.relationship('TaskState', backref=db.backref('tasks', lazy=True, cascade="all, delete-orphan"))
 
 
 class ExternalAttendee(db.Model):
