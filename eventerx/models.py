@@ -90,6 +90,7 @@ class Student(db.Model):
 
 class Team(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(50), nullable=False)
     created_on = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     # Foreign keys
@@ -120,7 +121,8 @@ class EventProject(db.Model):
     description = db.Column(db.String(512))
     start_date = db.Column(db.DateTime, nullable=False)
     due_date = db.Column(db.DateTime, nullable=False)
-    budget = db.Column(db.DateTime, nullable=False)
+    budget = db.Column(db.Integer, default=0, nullable=False)
+    is_active = db.Column(db.Integer, default=1, nullable=False)
     
     # Foreign keys
     school_institution_id = db.Column(db.Integer, db.ForeignKey('school_institution.id'), nullable=False)
@@ -148,7 +150,7 @@ class Commission(db.Model):
     
     # Foreign keys
     event_project_id = db.Column(db.Integer, db.ForeignKey('event_project.id'), nullable=False)
-    team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable=False)
+    team_id = db.Column(db.Integer, db.ForeignKey('team.id'))
     state_id = db.Column(db.Integer, db.ForeignKey('commission_states.id'), nullable=False)
     # backrefs
     event_project = db.relationship('EventProject', backref=db.backref('commissions', lazy=True, cascade="all, delete-orphan"))

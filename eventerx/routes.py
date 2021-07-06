@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 import re
+import eventerx
 from eventerx.utils import check_invitation_code
 from secrets import token_hex
 
@@ -11,8 +12,8 @@ from flask_migrate import current
 from werkzeug.utils import redirect
 
 from eventerx import app, bcrypt, db
-from eventerx.forms import CreateEventForm, LoginForm, RegisterSchoolForm, RegisterStaffForm
-from eventerx.models import (EventProject, InvitationCode, SchoolInstitution,
+from eventerx.forms import CreateCommissionForm, CreateEventForm, CreateTeamForm, LoginForm, RegisterSchoolForm, RegisterStaffForm
+from eventerx.models import (Commission, CommissionStates, EventProject, InvitationCode, SchoolInstitution,
                              StaffMember, Task, TaskState, Team, User)
 
 
@@ -76,16 +77,35 @@ def add_event():
         else:
             return redirect(url_for('events'))
 
+    else:
+        print(form.errors)
+
     school = SchoolInstitution.query.filter_by(
         email=current_user.email).first()
     return render_template('eventerx/pages/add_event.html', current_user=current_user, page={'title': 'events'}, events=events, school=school, form=form)
 
 
-# @app.route('/resources')
-# @login_required
-# def resources():
-#     resources =
-#     return render_template('eventerx/pages/resources.html', current_user=current_user, page={'title':'resources'})
+@app.route('/event/<string:event_id>')
+@login_required
+def event_details(event_id):
+    
+    if current_user.role_id != 3 and current_user.role_id != 2:  # only managers and school
+        return "<h1>Access denied</h1>", 403
+
+    # check if the event do not exist
+    event = EventProject.query.get(event_id)
+    if not event:
+        return abort(404)
+
+    # distinguish how a school object is gotten based on the current user role
+    if current_user.role_id == 3:
+        school = StaffMember.query.filter_by(
+            user_id=current_user.id).first().school_institution
+    else:
+        school = SchoolInstitution.query.filter_by(
+        email=current_user.email).first()
+
+    return render_template('eventerx/pages/event_detail.html', current_user=current_user, page={'title':event.title.title()}, event=event, school=school)
 
 
 @app.route('/settings')
@@ -96,21 +116,43 @@ def settings():
     return render_template('eventerx/pages/settings.html', page={'title': 'settings'}, school=school)
 
 
-@app.route('/event/<string:event_id>/tasks')
+@app.route('/event/<string:event_id>/tasks', methods=["GET", "POST"])
 @login_required
-def tasks():
+def tasks(event_id):
     if current_user.role.id != 3:  # only managers
         return "<h1>Access denied</h1>", 403
 
     # staff = StaffMember.query.filter_by(user_id=current_user.id).first()
     school = SchoolInstitution.query.filter_by(email=current_user.email).first()
+    event = EventProject.query.get(event_id)
 
-    tasks = {
-        'completed': Task.query.filter_by(taskstate_id=3).all(),
-        'ongoing': Task.query.filter_by(taskstate_id=2).all(),
-        'planned': Task.query.filter_by(taskstate_id=1).all()
-    }
-    return render_template('eventerx/pages/tasks.html', current_user=current_user, page={'title': 'tasks'}, tasks=tasks, school=school)
+    if not event:
+        return abort(404)
+
+    form = CreateCommissionForm(request.form)
+    form.priority.choices = ((1, "Low"), (2, "Medium"), (3, "High")) # set priority options
+    form.state.choices = [(i.id, i.name) for i in CommissionStates.query.all()] # set states options
+
+    if request.method == "POST" and form.validate():
+        commision = Commission(title=form.title.data, description=form.description.data, start_date=form.start_date.data, due_date=form.due_date.data, priority=form.priority.data, event_project_id=event_id, state_id=form.state.data)
+
+        db.session.add(commision)
+
+        try:
+            db.session.commit()
+        except:
+            # flash("Commission added successfully", "danger")
+            db.session.rollback()
+            raise
+        else:
+            flash("Commission added successfully")
+
+    else:
+        print(form.errors)
+
+    commissions = event.commissions
+
+    return render_template('eventerx/pages/tasks.html', current_user=current_user, page={'title': 'tasks'}, commissions=commissions, school=school, form=form)
 
 
 @app.route('/staff')
@@ -250,16 +292,28 @@ def make_staff_manager(staff_id):
         return redirect(request.referrer)
 
 
-@app.route('/teams')
+@app.route('/teams', methods=['GET', 'POST'])
 @login_required
 def teams():
-    if current_user.role.id != 3:
+    if current_user.role.id != 3: # only for managers
         return "<h1>Access denied</h1>", 403
 
-    teams = Team.query.filter_by(manager_id=current.manager.id).all()
-    school = SchoolInstitution.query.filter_by(
-        email=current_user.email).first()
-    return render_template('eventerx/pages/teams.html', current_user=current_user, page={'title': 'teams'}, teams=teams, school=school)
+    school = StaffMember.query.filter_by(user_id=current_user.id).first().school_institution_id
+    teams = Team.query.filter_by(school_institution_id=school).all()
+    members = StaffMember.query.filter_by(team_id=None).all() # get a list of members which are not in a team
+    commissions = Commission.query.filter_by(team_id=None).all()
+
+    form = CreateTeamForm(request.form)
+    form.members.choices = [(m.matricule, m.user.fullname) for m in members]
+    form.commissions.choices = [(c.id, c.title) for c in commissions]
+
+    if request.method == "POST" and form.validate():
+        pass
+
+    else:
+        print(form.errors)
+
+    return render_template('eventerx/pages/teams.html', current_user=current_user, page={'title': 'teams'}, teams=teams, form=form)
 
 
 @app.route("/login", methods=['GET', 'POST'])

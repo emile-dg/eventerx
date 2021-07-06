@@ -21,12 +21,6 @@
 </a>
 {% endif %}
 
-{% if current_user.role.id == 2 or current_user.role.id == 3 %}
-<a href="{{ url_for('calendar') }}" class="sidenav__item {{ '--active' if page.title.lower() == 'calendar' }}">
-    <i class="icon fa fa-calendar-alt"></i>
-    <span class="description">Calendar</span>
-</a>
-{% endif %}
 
 {% if current_user.role.id == 3 %}
 <a href="{{ url_for('teams') }}" class="sidenav__item {{ '--active' if page.title.lower() == 'teams' }}">

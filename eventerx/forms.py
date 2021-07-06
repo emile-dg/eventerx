@@ -1,5 +1,6 @@
 from wtforms import (DateField, Form, HiddenField, IntegerField, PasswordField,
                      StringField, validators, TextAreaField)
+from wtforms.fields.core import SelectField, SelectMultipleField
 
 
 class LoginForm(Form):
@@ -32,6 +33,19 @@ class CreateEventForm(Form):
     title = StringField('Title', validators=[validators.DataRequired()])
     venue = StringField('Venue', validators=[validators.DataRequired()])
     description = TextAreaField("Description (Optional)", validators=[validators.Length(max=512)])
-    budget = IntegerField('Budget', validators=[validators.DataRequired()])
+    budget = IntegerField('Budget')
     start_date = DateField('Event start date', validators=[validators.DataRequired()])
     due_date = DateField('Event End date', validators=[validators.DataRequired()])
+
+class CreateCommissionForm(Form):
+    title = StringField('Title', validators=[validators.DataRequired()])
+    description = TextAreaField("Description (Optional)", validators=[validators.Length(max=512)])
+    start_date = DateField('Event start date', validators=[validators.DataRequired()])
+    due_date = DateField('Event End date', validators=[validators.DataRequired()])
+    priority = SelectField("Priority", validators=[validators.DataRequired()])
+    state = SelectField("Commission state", validators=[validators.DataRequired()])
+
+class CreateTeamForm(Form):
+    title = StringField('Title', validators=[validators.DataRequired()])
+    members = SelectMultipleField("Add members", validators=[validators.DataRequired()])
+    commissions = SelectMultipleField("Assign Commission(s)", validators=[validators.DataRequired()])

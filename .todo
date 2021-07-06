@@ -2,16 +2,13 @@
 - [x] Allow the school to define managers
 - [x] Implement the **add_event** page
 - [] Implement the student invitation page
-- [] Design and Implement the students' user space
 - [] Design and Implement the staff members' user space
 - [] Allow managers to create teams and add members to those teams
-- [] Allow managers to create tasks, todos, and assign tasks to teams
-- [] Allow managers to set a **lead member** from the staff to a team
-- [] Allow each team lead to make subtasks and dispatch those to team members where necessary
+- [x] Allow managers to create tasks, todos, and assign tasks to teams
 - [] Allow staff to **report subtasks** to the team lead
 - [] Allow the team lead to **report tasks** to the event manager
 - [] Allow event manager to check completeness of tasks
 - [] Allow schools check the evolution of events
 - [] Allow managers to generate invitation links for external attendees
 - [] Allow external attendees to react to the invitation (if they will be present or not)
-- [X] Display the school name on the dashboard's top_panel
+- [x] Display the school name on the dashboard's top_panel

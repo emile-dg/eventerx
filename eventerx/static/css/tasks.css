@@ -29,6 +29,14 @@
       flex-basis: 33%;
 }
 
+.kanban_board .card_panel .drop_zone {
+  -webkit-transition: 300ms;
+  transition: 300ms;
+  min-height: 50px;
+  border-radius: 6px;
+  padding-bottom: 2rem;
+}
+
 .kanban_board .card_panel.completed {
   background-color: #3aaf9f;
 }

@@ -7,7 +7,7 @@
 
     @media screen and (min-width: $screen_lg) {
         flex-direction: row;
-    }
+    } 
 
     .card_panel {
         margin-right: 1rem;
@@ -17,6 +17,13 @@
         
         flex-grow: 1;
         flex-basis: 33%;
+
+        .drop_zone {
+            transition: 300ms;
+            min-height: 50px;
+            border-radius: $border_radius;
+            padding-bottom: 2rem;
+        }
     
 
         &.completed {

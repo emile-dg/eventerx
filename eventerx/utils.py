@@ -3,7 +3,7 @@ import json
 import os
 
 from eventerx import PROJECT_FILES_FOLDER, db, bcrypt
-from eventerx.models import Country, InvitationCode, TaskState, Town, UserRoles, User
+from eventerx.models import CommissionStates, Country, InvitationCode, TaskState, Town, UserRoles, User
 
 
 def get_project_file(filename):
@@ -65,7 +65,7 @@ def setup_user_roles():
 def setup_tasks_states():
     raw_states = json.loads(get_project_file("task_states.json"))
     for raw_state in raw_states.get('states'):
-        task_state = TaskState(**raw_state)
+        task_state = CommissionStates(**raw_state)
         db.session.add(task_state)
     try:
         db.session.commit()

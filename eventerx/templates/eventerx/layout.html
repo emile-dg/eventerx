@@ -25,6 +25,9 @@
 
 <body>
 
+    <!-- blocks reserved to page modals -->
+    {% block modals_block %}{% endblock %}
+
     <main class="home_grid">
 
         <div class="sidenav" id="sideNav">
@@ -44,6 +47,12 @@
             <div class="main_content">
 
                 <h1>{{ page.title.title() }}</h1>
+
+                {% for category, message in get_flashed_messages(with_categories=True) %}
+                    <div class="alert --{{category}}">
+                        {{message}}
+                    </div>
+                {% endfor %}
 
                 {% block main_content %}{% endblock %}
                 
