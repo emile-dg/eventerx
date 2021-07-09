@@ -52,8 +52,7 @@ def events():
     if current_user.role.id != 3:  # only managers
         return "<h1>Access denied</h1>", 403
     events = EventProject.query.filter_by().all()
-    school = SchoolInstitution.query.filter_by(
-        email=current_user.email).first()
+    school = SchoolInstitution.query.filter_by(email=current_user.email).first()
     return render_template('eventerx/pages/events.html', current_user=current_user, page={'title': 'events'}, events=events, school=school)
 
 
@@ -299,19 +298,61 @@ def teams():
         return "<h1>Access denied</h1>", 403
 
     school = StaffMember.query.filter_by(user_id=current_user.id).first().school_institution_id
-    teams = Team.query.filter_by(school_institution_id=school).all()
-    members = StaffMember.query.filter_by(team_id=None).all() # get a list of members which are not in a team
+    # get a list of members which are not in a team,and is not a manager
+    members = StaffMember.query.filter_by(team_id=None).all() 
+    members = [i for i in members if i.user.role_id!=3]
+
     commissions = Commission.query.filter_by(team_id=None).all()
 
     form = CreateTeamForm(request.form)
     form.members.choices = [(m.matricule, m.user.fullname) for m in members]
-    form.commissions.choices = [(c.id, c.title) for c in commissions]
+    form.commissions.choices = [(str(c.id), c.title) for c in commissions]
 
     if request.method == "POST" and form.validate():
-        pass
+        error_free = True
+        team = Team(school_institution_id=school, title=form.title.data)
+        db.session.add(team)
+        db.session.flush()
+
+        # update the team id of selected members
+        for member_id in form.members.data:
+            member = StaffMember.query.get(member_id)
+            if member:
+                member.team_id = team.id
+            else:
+                flash("Sorry, we can only add staff if they exist. Operation cancelled. Try again", "danger")
+                db.session.rollback()
+                error_free = False
+                break
+        
+        # update the commission team id of selected commissions
+        if error_free:
+            for commission_id in form.commissions.data:
+                if commission_id.isdigit():
+                    commission = Commission.query.get(int(commission_id))
+                    if commission:
+                        commission.team_id = team.id
+                    else:
+                        flash("Attempt to assign an invalid commission. Operation cancelled. Try again!", "danger")
+                        db.session.rollback()
+                        break
+
+            try:
+                db.session.commit()
+            except:
+                flash("Operration failed. Team was not created. Try again", "danger")
+                raise
+            else:
+                flash(f"Team \"{form.title.data}\" was created successfully!", "success")
+
+        else:
+            pass
 
     else:
         print(form.errors)
+
+    
+    teams = Team.query.filter_by(school_institution_id=school).all()
 
     return render_template('eventerx/pages/teams.html', current_user=current_user, page={'title': 'teams'}, teams=teams, form=form)
 

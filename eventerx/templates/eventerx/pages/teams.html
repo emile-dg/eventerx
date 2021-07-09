@@ -7,7 +7,7 @@
 
         <h3 style="text-align: center;">Create a team</h3>
 
-        <form action="" class="form --full-width">
+        <form action="" method="POST" class="form --full-width">
 
             <div class="input_control">
                 <label for="title">{{form.title.label}}</label>
@@ -15,12 +15,12 @@
             </div>
 
             <div class="input_control">
-                <label for="members">{{form.members.label}} (Hold <kbd>Ctrl</kbd> to select multiple projects)</label>
+                <label for="members">{{form.members.label}} (Hold <kbd>Ctrl</kbd> to select multiple)</label>
                 {{ form.members }}
             </div>
 
             <div class="input_control">
-                <label for="commission_id">{{form.commissions.label}} (Hold <kbd>Ctrl</kbd> to select multiple projects)</label>
+                <label for="commission_id">{{form.commissions.label}} (Hold <kbd>Ctrl</kbd> to select multiple)</label>
                 {{ form.commissions }}
             </div>
         

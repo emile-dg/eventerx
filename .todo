@@ -3,7 +3,7 @@
 - [x] Implement the **add_event** page
 - [] Implement the student invitation page
 - [] Design and Implement the staff members' user space
-- [] Allow managers to create teams and add members to those teams
+- [x] Allow managers to create teams and add members to those teams
 - [x] Allow managers to create tasks, todos, and assign tasks to teams
 - [] Allow staff to **report subtasks** to the team lead
 - [] Allow the team lead to **report tasks** to the event manager

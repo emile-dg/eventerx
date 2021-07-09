@@ -46,7 +46,7 @@
                 <td>{{event.title}}</td>
                 <td>{{event.due_date.strftime('%d %B, %Y')}}</td>
                 <td>
-                    {{ event.commissions|selectattr('state_id', 3)|list|length / (event.commissions|length if event.commissions|length > 0 else 1) * 100 }} %
+                    {{ (event.commissions|selectattr("state_id", "equalto", 3)|list|length / (event.commissions|length if event.commissions|length > 0 else 1) * 100)|round }} %
                 </td>
                 <td>
                     <a href="{{ url_for('event_details', event_id=event.id) }}">details</a>

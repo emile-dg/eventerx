@@ -35,6 +35,11 @@
                 <span class="value">{{ staff.phone }}</span>
             </div>
 
+            <div class="list_item">
+                <span class="title">Team</span>
+                <span class="value">{{ staff.team.title if staff.team_id else "Not in a team" }}</span>
+            </div>
+
         </div>
 
         {% if current_user.role_id == 2 %}

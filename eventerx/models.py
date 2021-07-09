@@ -123,6 +123,7 @@ class EventProject(db.Model):
     due_date = db.Column(db.DateTime, nullable=False)
     budget = db.Column(db.Integer, default=0, nullable=False)
     is_active = db.Column(db.Integer, default=1, nullable=False)
+    private = db.Column(db.SmallInteger, nullable=False, default=0)
     
     # Foreign keys
     school_institution_id = db.Column(db.Integer, db.ForeignKey('school_institution.id'), nullable=False)

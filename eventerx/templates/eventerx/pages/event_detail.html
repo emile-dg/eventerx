@@ -54,14 +54,14 @@
         <div class="tabular_list_items">
 
             <div class="list_item">
-                <span class="title">Commissions count</span>
+                <span class="title">Commissions count </span>
                 <span class="value">{{ event.commissions|length }}</span>
             </div>
             
             <div class="list_item">
                 <span class="title">Completed Commissions</span>
                 <span class="value">
-                    {{ event.commissions|selectattr('state_id', 3)|list|length }}
+                    {{ event.commissions|selectattr('state_id', "equalto", 3)|list|length }}
                 </span>
             </div>
 
@@ -69,7 +69,7 @@
                 {# the completion is calculated as the quantity of completed tasks over total tasks time 100 #}
                 <span class="title">Event Progress</span>
                 <span class="value">
-                    {{ event.commissions|selectattr('state_id', 3)|list|length / (event.commissions|length if event.commissions|length > 0 else 1) * 100 }} %
+                    {{ event.commissions|selectattr('state_id', "equalto", 3)|list|length / (event.commissions|length if event.commissions|length > 0 else 1) * 100 }} %
                 </span>
             </div>
             
