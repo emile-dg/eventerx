@@ -5,12 +5,13 @@ from flask_bcrypt import Bcrypt
 import os
 from flask_migrate import Migrate
 
-from eventerx.config import DevConfig
+from eventerx.config import DevConfig, ProdConfig
 
 
 app = Flask(__name__)
+ENV = "dev"
 
-app.config.from_object(DevConfig())
+app.config.from_object(DevConfig() if ENV == 'dev' else ProdConfig())
 
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
