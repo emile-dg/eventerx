@@ -342,7 +342,7 @@ a {
             display: inline-block;
             width: 20%;
 
-            @media screen and (max-width: $screen-sm) {
+            @media screen and (max-width: $screen_md) {
                 display: block;
                 width: 100%;
             }

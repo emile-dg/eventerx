@@ -2,7 +2,7 @@
 
 {% block main_content %}
 
-<form method="POST" action="{{url_for('add_staff')}}"  class="form --full-width">
+<form method="POST" action="{{url_for('add_student')}}"  class="form --full-width">
 
     <input type="hidden" name="school_id" value="{{ form.school_id }}">
     
@@ -43,8 +43,8 @@
         </div>
     
         <div class="input_control">
-            <label for="class">{{ form.class.label }}</label>
-            {{ form.class }}
+            <label for="class">{{ form.student_class.label }}</label>
+            {{ form.student_class }}
         </div>
     
     </div>
@@ -55,7 +55,7 @@
     </div>
 
     <div class="input_control">
-        <button class="button --full-width">Subscribe</button>
+        <button class="button --full-width">Register</button>
     </div>
 
 </form>

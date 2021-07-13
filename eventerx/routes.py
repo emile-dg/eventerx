@@ -9,9 +9,9 @@ from flask_login.utils import login_user
 from werkzeug.utils import redirect
 
 from eventerx import app, bcrypt, db
-from eventerx.forms import CreateCommissionForm, CreateEventForm, CreateTeamForm, LoginForm, RegisterSchoolForm, RegisterStaffForm
+from eventerx.forms import CreateCommissionForm, CreateEventForm, CreateTeamForm, LoginForm, RegisterSchoolForm, RegisterStaffForm, StudentRegistrationForm
 from eventerx.models import (Commission, CommissionStates, EventProject, InvitationCode, SchoolInstitution,
-                             StaffMember, Team, User)
+                             StaffMember, Student, Team, User)
 
 
 @app.route("/")
@@ -191,16 +191,17 @@ def invitation(purpose, code):
 
         if purpose.lower() == "staff":
             page_template = "add_staff"
-            form = RegisterStaffForm()
+            form = RegisterStaffForm(request.form)
             form.school_id = code.school_institution_id
 
         elif purpose.lower() == "students":
             page_template = "add_student"
-            form = RegisterStaffForm()
+            form = StudentRegistrationForm(request.form)
+            form.school_id = code.school_institution_id
 
         elif purpose.lower() == "attendee":
             page_template = "add_attendee"
-            form = RegisterStaffForm()
+            form = RegisterStaffForm(request.form)
 
         else:
             return abort(404)
@@ -314,6 +315,36 @@ def students():
         invitation_url = None
 
     return render_template("eventerx/pages/students.html", page={"title":"students"}, invitation_url=invitation_url)
+
+@app.route('/add/student', methods=['POST'])
+def add_student():
+    form = StudentRegistrationForm(request.form)
+
+    if request.method == "POST" and form.validate():
+        password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
+        user = User(email=form.email.data, first_name=form.first_name.data, last_name=form.last_name.data, password=password, role_id=4)
+
+        db.session.add(user)
+        db.session.flush()
+        
+        if user.id:
+            student =  Student(matricule=form.matricule.data, phone=form.phone_number.data, student_class=form.student_class.data, user_id=user.id, school_institution_id=form.school_id.data)
+            db.session.add(student)
+
+            try:
+                db.session.commit()
+            except:
+                flash("Registration failed. Internal error", "danger")
+                db.session.rollback()
+            else:
+                flash("Registration completed", "success")
+                return redirect(url_for('login'))
+
+        else:
+            db.session.rollback()
+            flash("Something went wrong. Registration failed!", "danger")
+
+    return redirect(request.referrer) # back to the source
 
 
 @app.route('/teams', methods=['GET', 'POST'])

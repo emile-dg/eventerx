@@ -28,6 +28,13 @@
 
         <h1>{{ page.title.title() }}</h1>
 
+        {% for category, message in get_flashed_messages(with_categories=true) %}
+        <div class="alert alert--{{category}}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        
+
         {% block main_content %}{% endblock %}
         
         {% block page_js %}{% endblock %}

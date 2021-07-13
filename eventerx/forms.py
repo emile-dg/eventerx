@@ -50,3 +50,16 @@ class CreateTeamForm(Form):
     title = StringField('Title', validators=[validators.DataRequired()])
     members = SelectMultipleField("Add members", validators=[validators.DataRequired()])
     commissions = SelectMultipleField("Assign Commission(s)", validators=[validators.DataRequired()])
+
+
+class StudentRegistrationForm(Form):
+    first_name = StringField('First Name', validators=[validators.DataRequired()])
+    last_name = StringField('Last Name', validators=[validators.DataRequired()])
+    email = StringField('Email', validators=[validators.DataRequired()])
+    matricule = StringField('Matricule', validators=[validators.DataRequired()])
+    phone_number = StringField('Phone Number', validators=[validators.DataRequired()])
+    password = PasswordField('Password', validators=[validators.DataRequired()])
+    school_id = HiddenField(validators=[validators.DataRequired()])
+    speciality = StringField('Speciality', validators=[validators.DataRequired()])
+    student_class = StringField('Class (Level)', validators=[validators.DataRequired()])
+    
