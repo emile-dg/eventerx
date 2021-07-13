@@ -1,6 +1,4 @@
 from datetime import datetime, timedelta
-import re
-import eventerx
 from eventerx.utils import check_invitation_code
 from secrets import token_hex
 
@@ -8,13 +6,12 @@ from flask import flash, render_template, request, abort
 from flask.helpers import url_for
 from flask_login import current_user, login_required, logout_user
 from flask_login.utils import login_user
-from flask_migrate import current
 from werkzeug.utils import redirect
 
 from eventerx import app, bcrypt, db
 from eventerx.forms import CreateCommissionForm, CreateEventForm, CreateTeamForm, LoginForm, RegisterSchoolForm, RegisterStaffForm
 from eventerx.models import (Commission, CommissionStates, EventProject, InvitationCode, SchoolInstitution,
-                             StaffMember, Task, TaskState, Team, User)
+                             StaffMember, Team, User)
 
 
 @app.route("/")
@@ -173,7 +170,7 @@ def staff():
     staff = StaffMember.query.filter_by(school_institution_id=school_id).all()
 
     # get the invitation key to use for adding staff members
-    invitation_code = InvitationCode.query.filter_by(purpose="staff").first()
+    invitation_code = InvitationCode.query.filter_by(purpose="staff", school_institution_id=school_id).first()
     if invitation_code:
         invitation_code = invitation_code.code
         invitation_url = url_for(
@@ -197,12 +194,12 @@ def invitation(purpose, code):
             form = RegisterStaffForm()
             form.school_id = code.school_institution_id
 
-        elif purpose.lower() == "student":
-            page_template = "add_student.html"
+        elif purpose.lower() == "students":
+            page_template = "add_student"
             form = RegisterStaffForm()
 
         elif purpose.lower() == "attendee":
-            page_template = "add_attendee.html"
+            page_template = "add_attendee"
             form = RegisterStaffForm()
 
         else:
@@ -289,6 +286,34 @@ def make_staff_manager(staff_id):
         raise
     else:
         return redirect(request.referrer)
+
+
+@app.route('/students')
+@login_required
+def students():
+    if current_user.role.id != 3 and current_user.role.id != 2: # only for managers and school
+        return "<h1>Access denied</h1>", 403
+
+     # if it is a manager, get the school id via the StaffMember class
+    if current_user.role.id == 3:
+        school_id = StaffMember.query.filter_by(
+            user_id=current_user.id).first().school_institution_id
+
+    # if it is the school itself, get the id through the SchoolInstitution class using email
+    else:
+        school_id = SchoolInstitution.query.filter_by(
+            email=current_user.email).first().id
+
+
+    invitation_code = InvitationCode.query.filter_by(purpose="students", school_institution_id=school_id).first()
+    if invitation_code:
+        invitation_code = invitation_code.code
+        invitation_url = url_for(
+            'invitation', purpose="students", code=invitation_code, _external=True)
+    else:
+        invitation_url = None
+
+    return render_template("eventerx/pages/students.html", page={"title":"students"}, invitation_url=invitation_url)
 
 
 @app.route('/teams', methods=['GET', 'POST'])
@@ -434,14 +459,18 @@ def generate_link(purpose):
         school_id = SchoolInstitution.query.filter_by(
             email=current_user.email).first().id
 
+    purpose = purpose.lower()
     url_code = token_hex(8)
     duration = datetime.now() + timedelta(days=7)  # make validity only for 7 days
-    db.session.add(InvitationCode(
-        code=url_code, duration=int(duration.timestamp()), purpose=purpose, school_institution_id=school_id))
+
+    check = InvitationCode.query.filter_by(purpose=purpose, school_institution_id=school_id).count() < 1
+    if check:
+        db.session.add(InvitationCode(
+            code=url_code, duration=int(duration.timestamp()), purpose=purpose, school_institution_id=school_id))
 
     try:
         db.session.commit()
     except:
         db.session.rollabck()
     else:
-        return redirect(url_for('staff'))
+        return redirect(url_for(purpose))

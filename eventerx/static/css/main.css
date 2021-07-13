@@ -174,19 +174,64 @@ a {
   border-radius: 6px;
 }
 
-.form .checbox_control {
+.form .switch_control {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  padding: 0 2rem;
+  width: 100%;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-.form .checbox_control input[type="checkbox"] {
-  margin: 0 1rem 0 0;
+.form .switch_control .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  min-width: 60px;
+  height: 34px;
+  margin-right: 1rem;
 }
 
-.form .checbox_control input[type="checkbox"]:focus {
-  outline: 2px solid #3aaf9f;
+.form .switch_control .switch input[type=checkbox] {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.form .switch_control .switch input[type=checkbox]:checked + .slider {
+  background-color: #3aaf9f;
+}
+
+.form .switch_control .switch input[type=checkbox]:checked + .slider::before {
+  -webkit-transform: translateX(26px);
+          transform: translateX(26px);
+}
+
+.form .switch_control .switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 300ms;
+  transition: 300ms;
+  border-radius: 34px;
+}
+
+.form .switch_control .switch .slider::before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  top: 4px;
+  background-color: white;
+  -webkit-transition: 300ms;
+  transition: 300ms;
+  border-radius: 50%;
 }
 
 .button {

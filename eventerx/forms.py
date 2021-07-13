@@ -36,7 +36,7 @@ class CreateEventForm(Form):
     budget = IntegerField('Budget')
     start_date = DateField('Event start date', validators=[validators.DataRequired()])
     due_date = DateField('Event End date', validators=[validators.DataRequired()])
-    is_private = BooleanField("Make event private the staff and not seen by students")
+    is_private = BooleanField("Private event")
 
 class CreateCommissionForm(Form):
     title = StringField('Title', validators=[validators.DataRequired()])

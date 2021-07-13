@@ -24,8 +24,13 @@
 
 {% if current_user.role.id == 3 %}
 <a href="{{ url_for('teams') }}" class="sidenav__item {{ '--active' if page.title.lower() == 'teams' }}">
-    <i class="icon fa fa-users"></i>
+    <i class="icon fa fa-user-circle"></i>
     <span class="description">Teams</span>
+</a>
+
+<a href="{{ url_for('students') }}" class="sidenav__item {{ '--active' if page.title.lower() == 'students' }}">
+    <i class="icon fa fa-book"></i>
+    <span class="description">Students</span>
 </a>
 {% endif %}
 
