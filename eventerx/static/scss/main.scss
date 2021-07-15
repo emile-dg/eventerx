@@ -3,7 +3,10 @@
 @import "grid";
 
 .sidenav {
-    background-image: linear-gradient($primary_color, $primary_gradient);
+    background-image: url("/static/images/sidebar_bg.png"), linear-gradient($primary_color, $primary_gradient);
+    background-position: right;
+    background-size: auto;
+    background-repeat: no-repeat;
     padding: 3rem 0.5rem;
 
     z-index: 1000;
@@ -131,6 +134,17 @@
             user-select: none;
             cursor: pointer;
             color: $black;
+
+            max-width: 250px;
+            padding: 0 1rem;
+
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+
+            @media screen and (min-width: $screen_md) {
+                max-width: none;
+            }
         }
 
         .mobile_only {
@@ -171,6 +185,11 @@
         padding: $default_padding;
         background-color: #efefef;
         overflow: hidden auto;
+
+        background-image: url("/static/images/body_bg.png");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
         
     }
 }

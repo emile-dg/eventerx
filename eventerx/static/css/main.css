@@ -532,8 +532,11 @@ a {
 }
 
 .sidenav {
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#3aaf9f), to(#3fb591));
-  background-image: linear-gradient(#3aaf9f, #3fb591);
+  background-image: url("/static/images/sidebar_bg.png"), -webkit-gradient(linear, left top, left bottom, from(#3aaf9f), to(#3fb591));
+  background-image: url("/static/images/sidebar_bg.png"), linear-gradient(#3aaf9f, #3fb591);
+  background-position: right;
+  background-size: auto;
+  background-repeat: no-repeat;
   padding: 3rem 0.5rem;
   z-index: 1000;
   display: -webkit-box;
@@ -691,6 +694,17 @@ a {
           user-select: none;
   cursor: pointer;
   color: #0f0f0f;
+  max-width: 250px;
+  padding: 0 1rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@media screen and (min-width: 640px) {
+  .main_section .top_panel .school_name {
+    max-width: none;
+  }
 }
 
 .main_section .top_panel .mobile_only {
@@ -734,6 +748,10 @@ a {
   padding: 2rem;
   background-color: #efefef;
   overflow: hidden auto;
+  background-image: url("/static/images/body_bg.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 
 .centered_form {
