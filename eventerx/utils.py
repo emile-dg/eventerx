@@ -75,9 +75,9 @@ def setup_tasks_states():
 
 
 def db_get_started():
+    setup_user_roles()
     setup_root_user()
     setup_tasks_states()
-    setup_user_roles()
 
 def check_invitation_code(code):
     invitation_code = InvitationCode.query.get(code)

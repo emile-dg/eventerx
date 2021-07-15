@@ -1,4 +1,3 @@
-from os import name
 from eventerx import app as application
 
 

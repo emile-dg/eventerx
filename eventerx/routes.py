@@ -49,7 +49,8 @@ def events():
     if current_user.role.id != 3:  # only managers
         return "<h1>Access denied</h1>", 403
     events = EventProject.query.filter_by().all()
-    school = SchoolInstitution.query.filter_by(email=current_user.email).first()
+    school = SchoolInstitution.query.filter_by(
+        email=current_user.email).first()
     return render_template('eventerx/pages/events.html', current_user=current_user, page={'title': 'events'}, events=events, school=school)
 
 
@@ -61,7 +62,8 @@ def add_event():
 
     form = CreateEventForm(request.form)
     if request.method == "POST" and form.validate():
-        school_id = StaffMember.query.filter_by(user_id=current_user.id).first().school_institution_id
+        school_id = StaffMember.query.filter_by(
+            user_id=current_user.id).first().school_institution_id
         event = EventProject(title=form.title.data, venue=form.venue.data, description=form.description.data,
                              start_date=form.start_date.data, due_date=form.due_date.data, budget=form.budget.data, school_institution_id=school_id)
         db.session.add(event)
@@ -84,7 +86,7 @@ def add_event():
 @app.route('/event/<string:event_id>')
 @login_required
 def event_details(event_id):
-    
+
     if current_user.role_id != 3 and current_user.role_id != 2:  # only managers and school
         return "<h1>Access denied</h1>", 403
 
@@ -99,9 +101,9 @@ def event_details(event_id):
             user_id=current_user.id).first().school_institution
     else:
         school = SchoolInstitution.query.filter_by(
-        email=current_user.email).first()
+            email=current_user.email).first()
 
-    return render_template('eventerx/pages/event_detail.html', current_user=current_user, page={'title':event.title.title()}, event=event, school=school)
+    return render_template('eventerx/pages/event_detail.html', current_user=current_user, page={'title': event.title.title()}, event=event, school=school)
 
 
 @app.route('/settings')
@@ -119,18 +121,22 @@ def tasks(event_id):
         return "<h1>Access denied</h1>", 403
 
     # staff = StaffMember.query.filter_by(user_id=current_user.id).first()
-    school = SchoolInstitution.query.filter_by(email=current_user.email).first()
+    school = SchoolInstitution.query.filter_by(
+        email=current_user.email).first()
     event = EventProject.query.get(event_id)
 
     if not event:
         return abort(404)
 
     form = CreateCommissionForm(request.form)
-    form.priority.choices = ((1, "Low"), (2, "Medium"), (3, "High")) # set priority options
-    form.state.choices = [(i.id, i.name) for i in CommissionStates.query.all()] # set states options
+    form.priority.choices = ((1, "Low"), (2, "Medium"),
+                             (3, "High"))  # set priority options
+    form.state.choices = [(i.id, i.name)
+                          for i in CommissionStates.query.all()]  # set states options
 
     if request.method == "POST" and form.validate():
-        commision = Commission(title=form.title.data, description=form.description.data, start_date=form.start_date.data, due_date=form.due_date.data, priority=form.priority.data, event_project_id=event_id, state_id=form.state.data)
+        commision = Commission(title=form.title.data, description=form.description.data, start_date=form.start_date.data,
+                               due_date=form.due_date.data, priority=form.priority.data, event_project_id=event_id, state_id=form.state.data)
 
         db.session.add(commision)
 
@@ -170,7 +176,8 @@ def staff():
     staff = StaffMember.query.filter_by(school_institution_id=school_id).all()
 
     # get the invitation key to use for adding staff members
-    invitation_code = InvitationCode.query.filter_by(purpose="staff", school_institution_id=school_id).first()
+    invitation_code = InvitationCode.query.filter_by(
+        purpose="staff", school_institution_id=school_id).first()
     if invitation_code:
         invitation_code = invitation_code.code
         invitation_url = url_for(
@@ -292,7 +299,7 @@ def make_staff_manager(staff_id):
 @app.route('/students')
 @login_required
 def students():
-    if current_user.role.id != 3 and current_user.role.id != 2: # only for managers and school
+    if current_user.role.id != 3 and current_user.role.id != 2:  # only for managers and school
         return "<h1>Access denied</h1>", 403
 
      # if it is a manager, get the school id via the StaffMember class
@@ -305,8 +312,8 @@ def students():
         school_id = SchoolInstitution.query.filter_by(
             email=current_user.email).first().id
 
-
-    invitation_code = InvitationCode.query.filter_by(purpose="students", school_institution_id=school_id).first()
+    invitation_code = InvitationCode.query.filter_by(
+        purpose="students", school_institution_id=school_id).first()
     if invitation_code:
         invitation_code = invitation_code.code
         invitation_url = url_for(
@@ -314,21 +321,25 @@ def students():
     else:
         invitation_url = None
 
-    return render_template("eventerx/pages/students.html", page={"title":"students"}, invitation_url=invitation_url)
+    return render_template("eventerx/pages/students.html", page={"title": "students"}, invitation_url=invitation_url)
+
 
 @app.route('/add/student', methods=['POST'])
 def add_student():
     form = StudentRegistrationForm(request.form)
 
     if request.method == "POST" and form.validate():
-        password = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
-        user = User(email=form.email.data, first_name=form.first_name.data, last_name=form.last_name.data, password=password, role_id=4)
+        password = bcrypt.generate_password_hash(
+            form.password.data).decode("utf-8")
+        user = User(email=form.email.data, first_name=form.first_name.data,
+                    last_name=form.last_name.data, password=password, role_id=4)
 
         db.session.add(user)
         db.session.flush()
-        
+
         if user.id:
-            student =  Student(matricule=form.matricule.data, phone=form.phone_number.data, student_class=form.student_class.data, user_id=user.id, school_institution_id=form.school_id.data)
+            student = Student(matricule=form.matricule.data, phone=form.phone_number.data,
+                              student_class=form.student_class.data, user_id=user.id, school_institution_id=form.school_id.data)
             db.session.add(student)
 
             try:
@@ -344,19 +355,20 @@ def add_student():
             db.session.rollback()
             flash("Something went wrong. Registration failed!", "danger")
 
-    return redirect(request.referrer) # back to the source
+    return redirect(request.referrer)  # back to the source
 
 
 @app.route('/teams', methods=['GET', 'POST'])
 @login_required
 def teams():
-    if current_user.role.id != 3: # only for managers
+    if current_user.role.id != 3:  # only for managers
         return "<h1>Access denied</h1>", 403
 
-    school = StaffMember.query.filter_by(user_id=current_user.id).first().school_institution_id
+    school = StaffMember.query.filter_by(
+        user_id=current_user.id).first().school_institution_id
     # get a list of members which are not in a team,and is not a manager
-    members = StaffMember.query.filter_by(team_id=None).all() 
-    members = [i for i in members if i.user.role_id!=3]
+    members = StaffMember.query.filter_by(team_id=None).all()
+    members = [i for i in members if i.user.role_id != 3]
 
     commissions = Commission.query.filter_by(team_id=None).all()
 
@@ -376,11 +388,12 @@ def teams():
             if member:
                 member.team_id = team.id
             else:
-                flash("Sorry, we can only add staff if they exist. Operation cancelled. Try again", "danger")
+                flash(
+                    "Sorry, we can only add staff if they exist. Operation cancelled. Try again", "danger")
                 db.session.rollback()
                 error_free = False
                 break
-        
+
         # update the commission team id of selected commissions
         if error_free:
             for commission_id in form.commissions.data:
@@ -389,7 +402,8 @@ def teams():
                     if commission:
                         commission.team_id = team.id
                     else:
-                        flash("Attempt to assign an invalid commission. Operation cancelled. Try again!", "danger")
+                        flash(
+                            "Attempt to assign an invalid commission. Operation cancelled. Try again!", "danger")
                         db.session.rollback()
                         break
 
@@ -399,7 +413,8 @@ def teams():
                 flash("Operration failed. Team was not created. Try again", "danger")
                 raise
             else:
-                flash(f"Team \"{form.title.data}\" was created successfully!", "success")
+                flash(
+                    f"Team \"{form.title.data}\" was created successfully!", "success")
 
         else:
             pass
@@ -407,7 +422,6 @@ def teams():
     else:
         print(form.errors)
 
-    
     teams = Team.query.filter_by(school_institution_id=school).all()
 
     return render_template('eventerx/pages/teams.html', current_user=current_user, page={'title': 'teams'}, teams=teams, form=form)
@@ -494,7 +508,8 @@ def generate_link(purpose):
     url_code = token_hex(8)
     duration = datetime.now() + timedelta(days=7)  # make validity only for 7 days
 
-    check = InvitationCode.query.filter_by(purpose=purpose, school_institution_id=school_id).count() < 1
+    check = InvitationCode.query.filter_by(
+        purpose=purpose, school_institution_id=school_id).count() < 1
     if check:
         db.session.add(InvitationCode(
             code=url_code, duration=int(duration.timestamp()), purpose=purpose, school_institution_id=school_id))
