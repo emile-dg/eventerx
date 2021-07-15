@@ -223,7 +223,18 @@ def invitation(purpose, code):
 @app.route('/add/staff', methods=['GET', 'POST'])
 def add_staff():
     form = RegisterStaffForm(request.form)
-    form_view = request.referrer
+
+    # make sure there is an existing invitation link for the staff for the pretended school
+    school_id = form.school_id.data
+    inv_code = InvitationCode.query.filter_by(purpose="staff", school_institution_id=school_id).first()
+    if inv_code:
+        form_view = url_for('invitation', purpose="staff", code=inv_code.code)
+    else:
+        return abort(404)
+
+    if User.query.filter_by(email=form.email.data).count() > 0:
+        flash("Email already registered by a user", "danger")
+        return redirect(form_view)
 
     if request.method == "POST" and form.validate():
         password = bcrypt.generate_password_hash(
@@ -284,7 +295,7 @@ def make_staff_manager(staff_id):
 
     # if the staff member is already a mangger
     if staff_user.role.id == 3:
-        return redirect(request.referrer)
+        return redirect(url_for('staff_member_details', staff_id=staff.matricule))
 
     staff_user.role_id = 3
     try:
@@ -293,7 +304,7 @@ def make_staff_manager(staff_id):
         db.session.rollback()
         raise
     else:
-        return redirect(request.referrer)
+        return redirect(url_for('staff_member_details', staff_id=staff.matricule))
 
 
 @app.route('/students')
@@ -328,6 +339,19 @@ def students():
 def add_student():
     form = StudentRegistrationForm(request.form)
 
+    # make sure there is an existing invitation link for the students for the pretended school
+    school_id = form.school_id.data
+    inv_code = InvitationCode.query.filter_by(purpose="students", school_institution_id=school_id).first()
+    if inv_code:
+        form_view = url_for('invitation', purpose="students", code=inv_code.code)
+    else:
+        return abort(404)
+
+    # check if there is already an account
+    if User.query.filter_by(email=form.email.data).count() > 0 or Student.query.get(form.matricule.data or ''):
+        flash("Email and/or Matricule already registered by a student", "danger")
+        return redirect(form_view)
+
     if request.method == "POST" and form.validate():
         password = bcrypt.generate_password_hash(
             form.password.data).decode("utf-8")
@@ -355,7 +379,7 @@ def add_student():
             db.session.rollback()
             flash("Something went wrong. Registration failed!", "danger")
 
-    return redirect(request.referrer)  # back to the source
+    return redirect(form_view)  # back to the source
 
 
 @app.route('/teams', methods=['GET', 'POST'])
@@ -456,25 +480,30 @@ def register_school():
 
     form = RegisterSchoolForm(request.form)
     if request.method == "POST" and form.validate():
-        password = bcrypt.generate_password_hash(
-            form.password.data).decode('utf-8')
-        school_user = User(email=form.email_address.data,
-                           password=password, role_id=2)
-        db.session.add(school_user)
 
-        school = SchoolInstitution(email=form.email_address.data, name=form.name.data, address1=form.address1.data,
-                                   address2=form.address2.data, phone=form.phone_number.data, pobox=form.pobox.data, website=form.website.data)
-        db.session.add(school)
-
-        try:
-            db.session.commit()
-
-        except:
-            db.session.rollback()
-            raise
+        if User.query.filter_by(email=form.email_address.data).count() > 0:
+            flash("Email already in used", "danger")
 
         else:
-            return redirect(url_for('login'))
+            password = bcrypt.generate_password_hash(
+                form.password.data).decode('utf-8')
+            school_user = User(email=form.email_address.data,
+                            password=password, role_id=2)
+            db.session.add(school_user)
+
+            school = SchoolInstitution(email=form.email_address.data, name=form.name.data, address1=form.address1.data,
+                                    address2=form.address2.data, phone=form.phone_number.data, pobox=form.pobox.data, website=form.website.data)
+            db.session.add(school)
+
+            try:
+                db.session.commit()
+
+            except:
+                db.session.rollback()
+                raise
+
+            else:
+                return redirect(url_for('login'))
 
     else:
         print(form.errors)
@@ -518,5 +547,6 @@ def generate_link(purpose):
         db.session.commit()
     except:
         db.session.rollabck()
+        raise
     else:
         return redirect(url_for(purpose))
